@@ -16,7 +16,7 @@ function create() {
     const program = useProgram();
 
 
-    const PROGRAM_ID = new PublicKey("Awn86VJSY4PW48dpGeDtXNsbiQZqcrfNgamobE6ER8sJ")
+    const PROGRAM_ID = new PublicKey("G9fnVkph8qGQUNmLhhvj5BpsZfwVSNvUHDKi2E1YSzn8")
 
 
 
@@ -30,7 +30,7 @@ function create() {
 
         try {
 
-            const lotteryName = "Vault"
+            const lotteryName = "SuperteamNP Lottery"
             const [lotteryPda, bump] = PublicKey.findProgramAddressSync(
                 [Buffer.from("lottery"), Buffer.from(lotteryName)],
                 PROGRAM_ID
@@ -43,7 +43,7 @@ function create() {
                 .createLottery(lotteryName, new BN(6) )
                 .accounts({
                     lotteryAccount: lotteryPda,
-                    signer: wallet.publicKey,
+                    signer: wallet?.publicKey,
                     systemProgram: SystemProgram.programId,
                 })
                 .rpc();

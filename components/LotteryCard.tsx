@@ -6,15 +6,25 @@ import { PublicKey, SystemProgram } from "@solana/web3.js";
 import { redirect } from "next/dist/server/api-utils";
 import { useRouter } from "next/navigation";
 
-const lotteryCard = ({ title, price, lotteryPDA }: { title: string, price: number, lotteryPDA: string }) => {
+const lotteryCard = ({
+  title,
+  price,
+  lotteryPDA,
+  createdBy
+}: {
+  title: string,
+  price: number,
+  lotteryPDA: string,
+  createdBy: string
+}) => {
 
   const program = useProgram()
-  console.log(lotteryPDA)
+  console.log('createdBy', createdBy)
   const router = useRouter()
   const wallet = useAnchorWallet()
 
 
-  const PROGRAM_ID = new PublicKey("Awn86VJSY4PW48dpGeDtXNsbiQZqcrfNgamobE6ER8sJ");
+  const PROGRAM_ID = new PublicKey("G9fnVkph8qGQUNmLhhvj5BpsZfwVSNvUHDKi2E1YSzn8");
 
   const purchaseTicket = async (lottery_pda: string) => {
 
@@ -24,26 +34,26 @@ const lotteryCard = ({ title, price, lotteryPDA }: { title: string, price: numbe
     }
 
     try {
-      console.log('hhhhhhhhhhhhhhhhhhhh',lottery_pda);
-      
-      const lotteryPDA = new PublicKey(lottery_pda)
-      console.log('passed lottery pda is ', lotteryPDA.toBase58());
+      console.log('hhhhhhhhhhhhhhhhhhhh', lottery_pda);
+
+      const lotteryPda = new PublicKey(lottery_pda)
+      console.log('passed lottery pda is ', lotteryPda.toBase58());
 
 
       const [ticketPDA, bump] = PublicKey.findProgramAddressSync(
-        [Buffer.from("ticket"), wallet.publicKey.toBuffer(), lotteryPDA.toBuffer()],
+        [Buffer.from("ticket"), wallet.publicKey.toBuffer(), lotteryPda.toBuffer()],
         PROGRAM_ID
       );
 
       console.log('ticketPDA is ', ticketPDA.toBase58());
 
-      const lotteryName = "Dami"
+      const lotteryName = "SuperteamNP Lottery"
 
 
       const tx = await program.methods
-        .purchaseTicket(lotteryName, new BN(8), new BN(20), lotteryPDA)
+        .purchaseTicket(lotteryName, new BN(8), new BN(20), lotteryPda)
         .accounts({
-          lotteryAccount: lotteryPDA,
+          lotteryAccount: lotteryPda,
           ticketAccount: ticketPDA,
           signer: wallet?.publicKey,
           systemProgram: SystemProgram.programId
@@ -76,18 +86,18 @@ const lotteryCard = ({ title, price, lotteryPDA }: { title: string, price: numbe
           <h2 className="text-2xl md:text-3xl font-semibold text-white/90 leading-tight">{title} </h2>
 
           <div className="mt-3 text-sm text-white/70 space-y-1">
-            <div className="flex items-center gap-2">
+            {/* <div className="flex items-center gap-2">
               <span className="text-xs text-white/60">Lottery Onchain</span>
               <code className="bg-white/5 px-2 py-0.5 rounded text-xs font-medium">{lotteryPDA}</code>
-            </div>
+            </div> */}
             <div className="flex items-center gap-2">
-              <span className="text-xs text-white/60">created by:</span>
-              <code className="bg-white/5 px-2 py-0.5 rounded text-xs font-medium">D2Ufu5Kd6H2y...B7LBrvJm</code>
+              <span className="text-xs text-white/60">Created by</span>
+              <code className="bg-white/5 px-2 py-0.5 rounded text-xs font-medium">{createdBy} </code>
             </div>
 
             <div className="flex items-center gap-2">
-              <span className="text-xs text-white/60">vault :</span>
-              <code className="bg-white/5 px-2 py-0.5 rounded text-xs">D2Ufu5Kd6H2y...B7LBrvJm</code>
+              <span className="text-xs text-white/60">Vault</span>
+              <code className="bg-white/5 px-2 py-0.5 rounded text-xs">{createdBy}</code>
             </div>
           </div>
 
@@ -109,7 +119,7 @@ const lotteryCard = ({ title, price, lotteryPDA }: { title: string, price: numbe
             }} className="px-6 py-2 rounded-xl border border-white/12 bg-white/3 backdrop-blur-sm text-sm font-medium text-white/85 hover:scale-[1.02] transition-transform">Dashboard</button>
 
             <div className="ml-auto">
-              <button onClick={()=>{
+              <button onClick={() => {
                 purchaseTicket(lotteryPDA)
               }} className="px-5 py-2 rounded-xl bg-gradient-to-br from-green-400/20 to-green-300/10 border border-green-300/30 text-green-50 font-semibold shadow-md hover:translate-y-[-2px] transition-all">
                 Buy now
@@ -121,7 +131,7 @@ const lotteryCard = ({ title, price, lotteryPDA }: { title: string, price: numbe
 
       {/* subtle bottom divider */}
       <div className="mt-6 border-t border-white/6 pt-4 text-xs text-white/40">
-        <span>Lottery ID • Solana Network</span>
+        <span>Lottery ID • Solana Network • <code className="bg-white/5 px-2 py-0.5 rounded text-xs font-medium">{lotteryPDA}</code> </span>
       </div>
     </div>
 

@@ -8,7 +8,7 @@ import idl from "./idl.json"
 export const useProgram = () => {
     const {connection} = useConnection()
     const wallet = useAnchorWallet()
-    const PROGRAM_ID = new PublicKey("Awn86VJSY4PW48dpGeDtXNsbiQZqcrfNgamobE6ER8sJ");
+    const PROGRAM_ID = new PublicKey("G9fnVkph8qGQUNmLhhvj5BpsZfwVSNvUHDKi2E1YSzn8");
 
     const provider = new AnchorProvider(connection, wallet as any, {
         preflightCommitment:"confirmed"

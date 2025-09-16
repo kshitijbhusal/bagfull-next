@@ -16,7 +16,7 @@ export const Page = () => {
   const [lotteries, setLotteries] = useState<any>([])
   const [allTickets, setAllTickets] = useState<any>([])
 
-  const PROGRAM_ID = new PublicKey("Awn86VJSY4PW48dpGeDtXNsbiQZqcrfNgamobE6ER8sJ")
+  const PROGRAM_ID = new PublicKey("G9fnVkph8qGQUNmLhhvj5BpsZfwVSNvUHDKi2E1YSzn8")
 
   // console.log(program)
 
@@ -25,18 +25,16 @@ export const Page = () => {
       console.error("Wallet not connected");
       return;
     }
-
+    
+    console.log("ctrl reach here")
     const lotteryData = await program.account.lottery.all();
+    console.log("ctrl bypass")
 
     setLotteries(lotteryData)
     console.log('Lottery is', lotteryData);
 
 
   }
-
-
-
-
 
 
 
@@ -68,10 +66,13 @@ export const Page = () => {
       {
         lotteries.map((lottery: any, index: any) => (
           <div key={index} className='bg--500 flex flex-col  items-center justify-centre p-4 space-y-4'>
+          {JSON.stringify(lottery.account.createdBy.toBase58())}
             <LotteryCard
               title={lottery.account.name}
               price={lottery.account.ticketPrice.toNumber()}
               lotteryPDA={lottery.account.lotteryPda.toBase58()}
+              createdBy={lottery.account.createdBy.toBase58()}
+              
             />
 
             {/* {JSON.stringify(lottery)} */}
