@@ -36,71 +36,6 @@ export const Page = () => {
 
 
 
-  const fetchAllTickets = async () => {
-    if (!wallet?.publicKey) {
-      console.log("Wallet not connected");
-      return
-    }
-
-    // console.log(wallet.publicKey.toBase58());
-
-
-    const ticketAccounts = await program.account.ticket.all();
-
-    console.log(ticketAccounts);
-    setAllTickets(ticketAccounts)
-
-  }
-
-
-  const purchaseTicket = async (lottery_pda: string) => {
-
-    if (!wallet?.publicKey) {
-      console.error("Wallet not connected");
-      return;
-    }
-
-    try {
-
-      const lotteryName = "Dami"
-
-      const [lotteryPDA] = PublicKey.findProgramAddressSync(
-        [Buffer.from("lottery"), Buffer.from(lotteryName)],
-        PROGRAM_ID
-      );
-      // const lotteryPDA = new PublicKey(lottery_pda); --
-      console.log('passed lottery pda is ', lotteryPDA.toBase58());
-
-      console.log("lotteryName:", lotteryName)
-      console.log("Derived PDA:", lotteryPDA.toBase58())
-
-      const [ticketPDA, bump] = PublicKey.findProgramAddressSync(
-        [Buffer.from("ticket"), wallet.publicKey.toBuffer(), lotteryPDA.toBuffer()],
-        PROGRAM_ID
-      );
-
-      console.log('ticketPDA is ', ticketPDA.toBase58());
-
-
-
-
-      const tx = await program.methods
-        .purchaseTicket(lotteryName, new BN(8), new BN(20), lotteryPDA)
-        .accounts({
-          lotteryAccount: lotteryPDA,
-          ticketAccount: ticketPDA,
-          signer: wallet?.publicKey,
-          systemProgram: SystemProgram.programId
-
-        }).rpc()
-
-      console.log('Ticket Purchased ', tx)
-
-    } catch (error) {
-      console.log('Error while purchase ticket', error);
-
-    }
-  }
 
 
 
@@ -111,21 +46,7 @@ export const Page = () => {
 
 
 
-  const drawWinners = async () => {
-    if (!wallet?.publicKey) {
-      console.error("Wallet not connected");
-      return;
-    }
 
-    try {
-
-      console.log(allTickets.length)
-
-      // console.log("Transaction successful:", tx);
-    } catch (error) {
-      console.error("Failed to create Todo:", error);
-    }
-  };
 
 
 

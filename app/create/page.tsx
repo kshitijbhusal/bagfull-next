@@ -21,7 +21,8 @@ function create() {
 
 
 
-    const createLottery = async () => {
+    const createLottery = async (e:any) => {
+        e.preventDefault()
         if (!wallet?.publicKey) {
             console.error("Wallet not connected");
             return;
@@ -29,21 +30,21 @@ function create() {
 
         try {
 
-            const lotteryName = "Dami"
-            const [lotteryPDA, bump] = PublicKey.findProgramAddressSync(
+            const lotteryName = "Vault"
+            const [lotteryPda, bump] = PublicKey.findProgramAddressSync(
                 [Buffer.from("lottery"), Buffer.from(lotteryName)],
                 PROGRAM_ID
             );
 
-            console.log('lotteryPDA is', lotteryPDA.toBase58());
+            console.log('lotteryPDA is', lotteryPda.toBase58());
 
 
             const tx = await program.methods
-                .createLottery(lotteryName, new BN(4), lotteryPDA)
+                .createLottery(lotteryName, new BN(6) )
                 .accounts({
-                    lotteryAccount: lotteryPDA,
+                    lotteryAccount: lotteryPda,
                     signer: wallet.publicKey,
-                    systemProgram: SystemProgram.programId
+                    systemProgram: SystemProgram.programId,
                 })
                 .rpc();
 
@@ -102,7 +103,9 @@ function create() {
 
                     {/* Submit */}
                     <button
-                        onClick={createLottery}
+                        onClick={(e)=>{
+                            createLottery(e)
+                        }}
                         type="submit"
                         className="w-full bg-sky-600 text-white font-semibold py-2 rounded-lg hover:bg-indigo-700 transition"
                     >
