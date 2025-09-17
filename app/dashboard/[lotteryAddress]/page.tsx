@@ -158,7 +158,7 @@ const dashboard = () => {
                         <button onClick={getWinnersList} className="bg-lime-600 text-white px-2 py-1 rounded-md hover:shadow-purple-500/20 cursor-pointer hover:scale-105">Lottery Winners</button>
                     )}
 
-                    {!lottery.isPayoutDone && (
+                    {!lottery.isDrawn && (
                         <button onClick={drawWinners} className="bg-green-800 text-white rounded-md px-2 py-2 hover:shadow-purple-500/20 cursor-pointer hover:scale-105">Draw Winners</button>
                     )}
                 </div>
@@ -219,11 +219,11 @@ const dashboard = () => {
 
                 {tickets && (
                     <div className="">
-                        <div className="bg-gray-800/90 backdrop-blur-sm  shadow-2xl border border-gray-700/50 rounded-md p-4 w-full mx-auto">
-                            <div className="overflow-hidden  border border-gray-700 mx-auto">
+                        <div className="bg-gradient-to-r from-neutral-800/40  to-purple-500/40 rounded-xl p-6 shadow-xl border border-yellow-300/40 max-w-5xl mx-auto mb-4">
+                            <div className="overflow-hidden   mx-auto">
                                 <table className="w-full">
                                     <thead>
-                                        <tr className="bg-gradient-to-r from-gray-700 to-gray-600">
+                                        <tr className="bg-gradient-to-r from-gray-700/20 to-gray-600/20">
                                             <th className="px-6 py-4 text-left text-sm font-semibold text-gray-100 uppercase tracking-wider border-r border-gray-600 last:border-r-0">
                                                 ID
                                             </th>
@@ -238,7 +238,7 @@ const dashboard = () => {
                                             </th>
                                         </tr>
                                     </thead>
-                                    <tbody className="bg-gray-800/50 divide-y divide-gray-700">
+                                    <tbody className="divide-y divide-gray-700">
 
                                         {tickets.map((ticket: any, index: any) => (
                                             <tr key={index} className="hover:bg-gray-700/50 transition-all duration-300 hover:translate-x-1 group">

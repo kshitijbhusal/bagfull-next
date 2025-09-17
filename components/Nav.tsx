@@ -1,12 +1,16 @@
 "use client"
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 function nav() {
+    const router = useRouter()
     return (
         <>
             <header className="max-w-7xl mx-auto  flex justify-between py-2">
-                <div className="bg-gradient-to-t from-[#9945FF] via-[#19FB9B] to-[#00FFA3] size-16 rounded-full">
+                <div onClick={()=>{
+                    router.push('/')
+                }} className="bg-gradient-to-t from-[#9945FF] via-[#19FB9B] to-[#00FFA3] size-16 rounded-full cursor-pointer">
 
                 </div>
 

@@ -4,6 +4,7 @@ import { BN } from "@project-serum/anchor";
 import { useAnchorWallet } from "@solana/wallet-adapter-react";
 import { PublicKey, SystemProgram } from "@solana/web3.js";
 import { redirect } from "next/dist/server/api-utils";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 const lotteryCard = ({
@@ -73,12 +74,13 @@ const lotteryCard = ({
     <div className="w-full max-w-4xl p-6 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-lg shadow-2xl">
       <div className="flex gap-6 items-start">
         {/* Left image */}
-        <div className="w-48 h-36 rounded-md overflow-hidden border-2 border-green-200/40 bg-green-50/50 flex-shrink-0 flex items-center justify-center">
+        <div className="w-48 h-36 rounded-md overflow-hidden border-2 border-green-200/40 bg-green-50/50 flex-shrink-0 flex items-center justify-center  ">
           {/* Replace this div with an <img src="/your-image.jpg"/> if you have an image */}
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 90" className="w-36 h-28 opacity-90">
+          {/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 90" className="w-36 h-28 opacity-90">
             <rect width="120" height="90" rx="6" fill="#e6fff0" />
             <path d="M12 70 C 28 18, 60 28, 90 24" stroke="#0f5132" strokeWidth="6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
+          </svg> */}
+          <Image src={"https://picsum.photos/id/15/200"} width={200} height={200} alt="Lottery Image" className="opacity-80" />
         </div>
 
         {/* Middle content */}
