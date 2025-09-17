@@ -46,9 +46,6 @@ export const Page = () => {
 
 
 
-
-
-
   return (
     <div className='max-w-7xl h-screen mx-auto bg-purpe-600/20  p-4'>
 
@@ -57,7 +54,7 @@ export const Page = () => {
       </div>
 
       <div className=' flex justify-center m-12'>
-        <h1 className='text-7xl w-fit   font-bold  text-center , text-transparent bg-clip-text bg-gradient-to-r from-[#9945FF] via-[#19FB9B] to-[#00FFA3] '>SOALNA LOTTERY SHOP</h1>
+        <h1 className='text-7xl w-fit   font-bold  text-center , text-transparent bg-clip-text bg-gradient-to-r from-[#9945FF] via-[#19FB9B] to-[#00FFA3] '>SOLANA LOTTERY SHOP</h1>
       </div>
 
 
@@ -72,10 +69,11 @@ export const Page = () => {
               price={lottery.account.ticketPrice.toNumber()}
               lotteryPDA={lottery.account.lotteryPda.toBase58()}
               createdBy={lottery.account.createdBy.toBase58()}
+              id={index + 200}
+              vault={lottery.account.vaultPda.toBase58()}
               
             />
-
-            {/* {JSON.stringify(lottery)} */}
+            
 
           </div>
 

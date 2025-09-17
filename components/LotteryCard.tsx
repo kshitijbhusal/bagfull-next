@@ -11,12 +11,16 @@ const lotteryCard = ({
   title,
   price,
   lotteryPDA,
-  createdBy
+  createdBy,
+  id,
+  vault
 }: {
   title: string,
   price: number,
   lotteryPDA: string,
-  createdBy: string
+  createdBy: string,
+  id:Number,
+  vault:string
 }) => {
 
   const program = useProgram()
@@ -75,12 +79,8 @@ const lotteryCard = ({
       <div className="flex gap-6 items-start">
         {/* Left image */}
         <div className="w-48 h-36 rounded-md overflow-hidden border-2 border-green-200/40 bg-green-50/50 flex-shrink-0 flex items-center justify-center  ">
-          {/* Replace this div with an <img src="/your-image.jpg"/> if you have an image */}
-          {/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 90" className="w-36 h-28 opacity-90">
-            <rect width="120" height="90" rx="6" fill="#e6fff0" />
-            <path d="M12 70 C 28 18, 60 28, 90 24" stroke="#0f5132" strokeWidth="6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-          </svg> */}
-          <Image src={"https://picsum.photos/id/15/200"} width={200} height={200} alt="Lottery Image" className="opacity-80" />
+          
+          <Image src={`https://picsum.photos/id/${id}/200`} width={200} height={200} alt="Lottery Image" className="opacity-80" />
         </div>
 
         {/* Middle content */}
@@ -99,17 +99,17 @@ const lotteryCard = ({
 
             <div className="flex items-center gap-2">
               <span className="text-xs text-white/60">Vault</span>
-              <code className="bg-white/5 px-2 py-0.5 rounded text-xs">{createdBy}</code>
+              <code className="bg-white/5 px-2 py-0.5 rounded text-xs">{vault}</code>
             </div>
           </div>
 
           <div className="mt-5 flex items-center gap-6">
             <div className="text-sm text-white/80">
-              <div className="text-base">Ends in <span className="font-medium">2d :05 hour</span></div>
+              <div className="text-base">Ends in <span className="font-xl">24 hour</span></div>
             </div>
 
             <div className="ml-auto text-center">
-              <div className="text-3xl md:text-4xl font-extrabold text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)]">$ {price} <span className="text-lg font-normal">USDC</span></div>
+              <div className="text-3xl md:text-4xl font-extrabold text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)]">$ {price} <span className="text-lg font-normal">SOL</span></div>
             </div>
           </div>
 

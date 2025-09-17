@@ -21,7 +21,7 @@ function create() {
 
 
 
-    const createLottery = async (e:any) => {
+    const createLottery = async (e: any) => {
         e.preventDefault()
         if (!wallet?.publicKey) {
             console.error("Wallet not connected");
@@ -30,17 +30,42 @@ function create() {
 
         try {
 
-            const lotteryName = "SuperteamNP Lottery"
+            const lotteryName = "KTM Solana Lottery"
+
+
+
+            //-------------------------------
+            // derive vault PDA (linked to lottery)
+            const [vaultPda] = PublicKey.findProgramAddressSync(
+                [Buffer.from("vault"), Buffer.from(lotteryName)],
+                PROGRAM_ID
+            );
+
             const [lotteryPda, bump] = PublicKey.findProgramAddressSync(
                 [Buffer.from("lottery"), Buffer.from(lotteryName)],
                 PROGRAM_ID
             );
 
-            console.log('lotteryPDA is', lotteryPda.toBase58());
+            console.log("Vault PDA is", vaultPda.toBase58());
+
+            // 2️⃣ create vault
+            const tx2 = await program.methods
+                .createVault(lotteryName, lotteryPda)
+                .accounts({
+                    vaultAccount: vaultPda,
+                    signer: wallet.publicKey,
+                    systemProgram: SystemProgram.programId,
+                })
+                .rpc();
+
+            console.log("Vault created in tx:", tx2);
+
+          
 
 
-            const tx = await program.methods
-                .createLottery(lotteryName, new BN(6) )
+
+            const tx1 = await program.methods
+                .createLottery(lotteryName, new BN(1), vaultPda)
                 .accounts({
                     lotteryAccount: lotteryPda,
                     signer: wallet?.publicKey,
@@ -48,7 +73,14 @@ function create() {
                 })
                 .rpc();
 
-            console.log("Transaction successful:", tx);
+            console.log("Transaction successful! Lottery Created", tx1);
+
+            console.log('lotteryPDA is', lotteryPda.toBase58());
+
+
+
+
+
         } catch (error) {
             console.error("Failed to create Todo:", error);
         }
@@ -103,7 +135,7 @@ function create() {
 
                     {/* Submit */}
                     <button
-                        onClick={(e)=>{
+                        onClick={(e) => {
                             createLottery(e)
                         }}
                         type="submit"
