@@ -66,7 +66,7 @@ export const Page = () => {
       {
         lotteries.map((lottery: any, index: any) => (
           <div key={index} className='bg--500 flex flex-col  items-center justify-centre p-4 space-y-4'>
-          {JSON.stringify(lottery.account.createdBy.toBase58())}
+          
             <LotteryCard
               title={lottery.account.name}
               price={lottery.account.ticketPrice.toNumber()}
