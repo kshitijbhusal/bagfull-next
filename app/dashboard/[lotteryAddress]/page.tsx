@@ -174,34 +174,34 @@ const dashboard = () => {
 
                     {lottery &&
 
-                        <section>
+                        <section className="flex items-start justify-between " >
 
 
                             <div>
                                 <DashLotteryCard data={lottery} />
-
-
                             </div>
 
                             {tickets && lottery && (
-                                <div className="max-w-xl p-6 bg-gradient-to-br from-gray-900/20 to-purple-800/70 backdrop-blur-md shadow-2xl rounded-xl hover:shadow-gray-900/50 transition-shadow duration-300 my-6 space-y-2">
+                                <div className="max-w-xl p-6 bg-gradient-to-br from-gray-900/20 to-purple-800/70 backdrop-blur-md shadow-2xl rounded-xl hover:shadow-gray-900/50 transition-shadow duration-300 my-6 space-y-4">
 
                                     
 
                                     <p>
                                         <span className="font-medium text-gray-100">🔐 Vault Address:</span>{" "}
-                                        {lottery.vaultPda.toBase58()} 
+                                        <code className="text-neutral-400">{lottery.vaultPda.toBase58()} 
+                                            
+                                            </code>
                                     </p>
 
-                                    <section className="flex gap-6 ">
-                                        <div className="p-2 border border-neutral-600/20 rounded-xl text-center bg-neutral-200/20" >
-                                            <p className="text-xl font-semibold text-neutral-200">Tickets Sold</p>
-                                            <span className="text-2xl font-semibold text-neutral-200"   >{tickets?.length}</span>
+                                    <section className="flex space-between gap-6 ">
+                                        <div className="p-2 border border-neutral-600/20 rounded-xl text-center bg-neutral-400/10" >
+                                            <p className="text-base font-semibold text-neutral-400">Tickets Sold</p>
+                                            <span className="text-2xl font-semibold text-neutral-400"   >{tickets?.length}</span>
                                         </div>
 
-                                        <div className="p-2 border border-neutral-600/20 rounded-xl text-center bg-neutral-200/20">
-                                            <p className="text-xl font-semibold text-neutral-200">Vault Balance</p>
-                                            <span className="text-2xl font-semibold text-neutral-200" >{(tickets?.length) * (lottery.ticketPrice.toNumber())}</span>
+                                        <div className="p-2 border border-neutral-600/20 rounded-xl text-center bg-neutral-400/10">
+                                            <p className="text-base font-semibold text-neutral-400">Vault Balance</p>
+                                            <span className="text-2xl font-semibold text-neutral-400" >{(tickets?.length) * (lottery.ticketPrice.toNumber())} SOL</span>
                                         </div>
 
                                     </section>

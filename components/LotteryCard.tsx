@@ -7,6 +7,9 @@ import { redirect } from "next/dist/server/api-utils";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
+import PROGRAM_ID from "@/lib/constants";
+import toast from "react-hot-toast";
+
 const lotteryCard = ({
   title,
   price,
@@ -29,7 +32,6 @@ const lotteryCard = ({
   const wallet = useAnchorWallet()
 
 
-  const PROGRAM_ID = new PublicKey("G9fnVkph8qGQUNmLhhvj5BpsZfwVSNvUHDKi2E1YSzn8");
 
   const purchaseTicket = async (lottery_pda: string) => {
 
@@ -52,11 +54,11 @@ const lotteryCard = ({
 
       console.log('ticketPDA is ', ticketPDA.toBase58());
 
-      const lotteryName = "SuperteamNP Lottery"
+      const lotteryName = title;
 
 
       const tx = await program.methods
-        .purchaseTicket(lotteryName, new BN(8), new BN(20), lotteryPda)
+        .purchaseTicket(lotteryName, new BN(id), new BN(price), lotteryPda)
         .accounts({
           lotteryAccount: lotteryPda,
           ticketAccount: ticketPDA,
@@ -65,10 +67,13 @@ const lotteryCard = ({
 
         }).rpc()
 
-      console.log('Ticket Purchased ', tx)
+      
+
+      toast.success("Ticket purchased seccessfully!")
 
     } catch (error) {
       console.log('Error while purchase ticket', error);
+      toast.error("Error: purchasing ticket!")
 
     }
 
@@ -88,10 +93,7 @@ const lotteryCard = ({
           <h2 className="text-2xl md:text-3xl font-semibold text-white/90 leading-tight">{title} </h2>
 
           <div className="mt-3 text-sm text-white/70 space-y-1">
-            {/* <div className="flex items-center gap-2">
-              <span className="text-xs text-white/60">Lottery Onchain</span>
-              <code className="bg-white/5 px-2 py-0.5 rounded text-xs font-medium">{lotteryPDA}</code>
-            </div> */}
+          
             <div className="flex items-center gap-2">
               <span className="text-xs text-white/60">Created by</span>
               <code className="bg-white/5 px-2 py-0.5 rounded text-xs font-medium">{createdBy} </code>
