@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 
 import PROGRAM_ID from "@/lib/constants";
 import toast from "react-hot-toast";
+import Link from "next/link";
 
 const lotteryCard = ({
   title,
@@ -116,16 +117,16 @@ const lotteryCard = ({
           </div>
 
           <div className="mt-6 flex gap-4">
-            <button className="px-4 py-2 rounded-xl border border-white/12 bg-white/3 backdrop-blur-sm text-sm font-medium text-white/85 hover:scale-[1.02] transition-transform">Rules and Policy</button>
+            <Link className="px-4 py-2 rounded-xl border border-white/12 bg-white/3 backdrop-blur-sm text-sm font-medium text-white/85 hover:scale-[1.02] transition-transform cursor-pointer " href={"/policy"} >Rules and Policy</Link>
 
             <button onClick={() => {
               router.push(`/dashboard/${lotteryPDA}`)
-            }} className="px-6 py-2 rounded-xl border border-white/12 bg-white/3 backdrop-blur-sm text-sm font-medium text-white/85 hover:scale-[1.02] transition-transform">Dashboard</button>
+            }} className="px-6 py-2 rounded-xl border border-white/12 bg-white/3 backdrop-blur-sm text-sm font-medium text-white/85 hover:scale-[1.02] transition-transform cursor-pointer ">Dashboard</button>
 
             <div className="ml-auto">
               <button onClick={() => {
                 purchaseTicket(lotteryPDA)
-              }} className="px-5 py-2 rounded-xl bg-gradient-to-br from-green-400/20 to-green-300/10 border border-green-300/30 text-green-50 font-semibold shadow-md hover:translate-y-[-2px] transition-all">
+              }} className="px-5 py-2 rounded-xl bg-gradient-to-br from-lime-600/20 to-green-300/10 border border-green-300/30 text-green-50 font-semibold shadow-md hover:translate-y-[-2px] transition-all cursor-pointer ">
                 Buy now
               </button>
             </div>

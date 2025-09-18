@@ -17,7 +17,7 @@ const dashboard = () => {
     const program = useProgram()
     const wallet = useAnchorWallet()
     // const ACCOUNT_ADDRESS = new PublicKey(lotteryAddress)
-    const ACCOUNT_ADDRESS = lotteryAddress;
+
 
     const [tickets, setTickets] = useState<any>()
     const [lottery, setLottery] = useState<any>()
@@ -33,9 +33,10 @@ const dashboard = () => {
 
 
     async function getSingleLottery() {
-        const lottery = await program.account.lottery.fetch(ACCOUNT_ADDRESS)
+        const lottery = await program.account.lottery.fetch(lotteryAddress)
         setLottery(lottery)
         console.log(lottery)
+        
 
     }
 
@@ -49,7 +50,8 @@ const dashboard = () => {
 
     useEffect(() => {
         fetchAllTickets()
-    }, [])
+        
+    }, [lottery])
 
     const fetchAllTickets = async () => {
         if (!wallet?.publicKey) {
@@ -57,14 +59,13 @@ const dashboard = () => {
             return
         }
 
-
         const ticketAccounts = await program.account.ticket.all([
-            // {
-            //     memcmp:{
-            //         offset:8,
-            //         bytes: lotteryAddress
-            //     }
-            // }
+            {
+                memcmp: {
+                    offset: 24,
+                    bytes: lottery.lotteryPda.toBase58(),
+                }
+            }
         ]);
 
         console.log(ticketAccounts);
@@ -101,8 +102,10 @@ const dashboard = () => {
         }
         console.log(winnersList)
 
+        const eachPrice = Math.floor((ticketsNumber * lottery.ticketPrice.toNumber())/winnersNumber)
 
-        const vaultAddress = new PublicKey(lotteryAddress); //-----------------------------
+
+        const vaultAddress = new PublicKey(lottery.vaultPda); 
 
 
 
@@ -123,7 +126,7 @@ const dashboard = () => {
 
 
             const tx = await program.methods
-                .drawWinners(lotteryName, lotteryPDA, vaultAddress, new BN(40), winnersList)
+                .drawWinners(lotteryName, lotteryPDA, vaultAddress, new BN(eachPrice), winnersList)
                 .accounts({
                     lotteryAccount: lotteryPDA,
                     winnerAccount: winnerPDA,
@@ -134,7 +137,7 @@ const dashboard = () => {
                 .rpc()
 
 
-            toast.success(`Winners are drawn. ${tx}`)
+            toast.success(`Winners drawn successfully. ${winnerPDA}`)
 
             console.log("Winners are drawn")
 
@@ -152,7 +155,15 @@ const dashboard = () => {
             return
         }
 
-        const winnersList = await program.account.winner.all()
+        const winnersList = await program.account.winner.all([
+            {
+                memcmp:{
+                    offset:8,
+                    bytes: lottery.lotteryPda.toBase58()
+                }
+            }
+
+        ])
         setTickets("")
         setLotteryWinnerList(winnersList)
         console.log('this are the winnersList', winnersList);
@@ -182,18 +193,18 @@ const dashboard = () => {
                             </div>
 
                             {tickets && lottery && (
-                                <div className="max-w-xl p-6 bg-gradient-to-br from-gray-900/20 to-purple-800/70 backdrop-blur-md shadow-2xl rounded-xl hover:shadow-gray-900/50 transition-shadow duration-300 my-6 space-y-4">
+                                <div className="max-w-xl p-6 bg-gradient-to-br from-purple-800/70 to-gray-900/20 backdrop-blur-md shadow-2xl rounded-xl hover:shadow-gray-900/50 transition-shadow duration-300 my-6 space-y-4">
 
-                                    
+
 
                                     <p>
                                         <span className="font-medium text-gray-100">🔐 Vault Address:</span>{" "}
-                                        <code className="text-neutral-400">{lottery.vaultPda.toBase58()} 
-                                            
-                                            </code>
+                                        <code className="text-neutral-400">{lottery.vaultPda.toBase58()}
+
+                                        </code>
                                     </p>
 
-                                    <section className="flex space-between gap-6 ">
+                                    <section className="flex space-center gap-6 w-full ">
                                         <div className="p-2 border border-neutral-600/20 rounded-xl text-center bg-neutral-400/10" >
                                             <p className="text-base font-semibold text-neutral-400">Tickets Sold</p>
                                             <span className="text-2xl font-semibold text-neutral-400"   >{tickets?.length}</span>
@@ -201,7 +212,7 @@ const dashboard = () => {
 
                                         <div className="p-2 border border-neutral-600/20 rounded-xl text-center bg-neutral-400/10">
                                             <p className="text-base font-semibold text-neutral-400">Vault Balance</p>
-                                            <span className="text-2xl font-semibold text-neutral-400" >{(tickets?.length) * (lottery.ticketPrice.toNumber())} SOL</span>
+                                            <span className="text-2xl font-semibold text-neutral-400" >$ {(tickets?.length) * (lottery.ticketPrice.toNumber())} <span className="text-base" >SOL</span></span>
                                         </div>
 
                                     </section>
@@ -243,7 +254,7 @@ const dashboard = () => {
 
                                         </div>
                                         <p className="mt-2 text-lg text-white/90 font-medium">
-                                            Prize: <span className="text-yellow-300 font-bold text-xl">{data.account.amount.toNumber()} </span>
+                                            Prize: <span className=" font-bold text-xl">{data.account.amount.toNumber()} SOL </span>
                                         </p>
                                     </section>
 
