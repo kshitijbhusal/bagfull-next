@@ -6,7 +6,8 @@ import { useAnchorWallet } from "@solana/wallet-adapter-react";
 import { PublicKey, SystemProgram } from "@solana/web3.js";
 import { useProgram } from "@/lib/useProgram";
 import { BN } from "@project-serum/anchor";
-
+import PROGRAM_ID from "@/lib/constants";
+import { useState } from "react";
 
 
 
@@ -14,9 +15,8 @@ function create() {
 
     const wallet = useAnchorWallet();
     const program = useProgram();
-
-
-    const PROGRAM_ID = new PublicKey("G9fnVkph8qGQUNmLhhvj5BpsZfwVSNvUHDKi2E1YSzn8")
+    const [lotteryName, setLotteryName] = useState("")
+    const [lotteryPrice, setLotteryPrice] = useState("")
 
 
 
@@ -28,9 +28,13 @@ function create() {
             return;
         }
 
+        if(!lotteryName || !lotteryPrice){
+            alert("Details not provided.")
+            return;
+        }
+
         try {
 
-            const lotteryName = "KTM Solana Lottery"
 
 
 
@@ -96,7 +100,7 @@ function create() {
                 <Link href={"/"} className=" border border-neutral-500  rounded-md p-2 absolute flex items-center b-6 " ><ArrowLeft /> Back</Link>
                 <h1 className="text-center text-4xl">Create Your Own Lottery</h1>
 
-                <form className="bg-gray-800 shadow-lg rounded-2xl p-8 w-full max-w-2xl space-y-6 mx-auto">
+                <form className="bg-neutral-800/40 shadow-lg rounded-2xl p-8 w-full max-w-2xl space-y-6 mx-auto">
                     <h2 className="text-2xl font-bold text-white text-center">
                         Create Lottery
                     </h2>
@@ -113,7 +117,8 @@ function create() {
                             id="name"
                             type="text"
                             placeholder="Enter lottery name"
-                            className="border border-gray-600 bg-gray-700 text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            className="border border-gray-600 bg-gray-700/50 text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            onChange={(e)=>setLotteryName(e.target.value)}
                         />
                     </div>
 
@@ -123,13 +128,14 @@ function create() {
                             htmlFor="price"
                             className="text-sm font-medium text-gray-300 mb-2"
                         >
-                            Price
+                            Ticket Price (SOL)
                         </label>
                         <input
                             id="price"
                             type="number"
-                            placeholder="Enter ticket price"
-                            className="border border-gray-600 bg-gray-700 text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            placeholder="Enter SOL amount"
+                            className="border border-gray-600 bg-gray-700/50 text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            onChange={(e)=>setLotteryPrice(e.target.value)}
                         />
                     </div>
 
@@ -139,7 +145,7 @@ function create() {
                             createLottery(e)
                         }}
                         type="submit"
-                        className="w-full bg-sky-600 text-white font-semibold py-2 rounded-lg hover:bg-indigo-700 transition"
+                        className="w-fit px-2 cursor-pointer bg-sky-600 text-white font-semibold py-2 rounded-lg hover:bg-indigo-700 transition"
                     >
                         Create Lottery
                     </button>

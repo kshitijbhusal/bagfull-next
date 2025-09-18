@@ -9,18 +9,20 @@ function nav() {
     const router = useRouter()
     return (
         <>
-            <header className="max-w-7xl mx-auto  flex justify-between py-2">
-                <div>
-
-
-                    <div onClick={() => {
+            <header className="max-w-7xl mx-auto flex justify-between py-2">
+                <div
+                    onClick={() => {
                         router.push('/')
-                    }} className="bg-gradient-to-t from-[#9945FF] via-[#19FB9B] to-[#00FFA3] size-16 rounded-full cursor-pointer">
+                    }}
+
+                        className="flex items-end gap-2  p-2 cursor-pointer" >
 
 
+                    <div
+                        className="bg-gradient-to-t from-[#9945FF] via-[#19FB9B] to-[#00FFA3] size-10 rounded-full ">
                     </div>
-                    
-                    <Image src={logo} alt="Logo" width={100} height={100} />
+
+                    <Image  src={logo} alt="Logo" width={100} height={100} />
 
 
                 </div>
