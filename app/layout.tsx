@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import WalletContextProvider from "../lib/WalletContextProvider";
 import Nav from "../components/Nav"
+import { Toaster } from "react-hot-toast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,6 +35,7 @@ export default function RootLayout({
           <div>
             <Nav />
             {children}
+            <Toaster/>
           </div>
         </WalletContextProvider>
       </body>

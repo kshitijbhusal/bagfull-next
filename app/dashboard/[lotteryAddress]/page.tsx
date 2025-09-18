@@ -8,6 +8,9 @@ import { PublicKey, SystemProgram } from "@solana/web3.js"
 import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"
 
+import PROGRAM_ID from "@/lib/constants"
+import toast from "react-hot-toast"
+
 const dashboard = () => {
     const { lotteryAddress }: any = useParams()
     // const lotteryPDA = new PublicKey(lotteryAddress)
@@ -18,25 +21,41 @@ const dashboard = () => {
 
     const [tickets, setTickets] = useState<any>()
     const [lottery, setLottery] = useState<any>()
+    const [vault, setVault] = useState<any>()
     const [lotteryWinnerList, setLotteryWinnerList] = useState<any>()
 
-    const PROGRAM_ID = new PublicKey("G9fnVkph8qGQUNmLhhvj5BpsZfwVSNvUHDKi2E1YSzn8");
 
-    useEffect(() => { getSingleLottery() }, [])
+
+    useEffect(() => {
+        getSingleLottery()
+    }, [])
+
+
+
     async function getSingleLottery() {
         const lottery = await program.account.lottery.fetch(ACCOUNT_ADDRESS)
         setLottery(lottery)
         console.log(lottery)
+
     }
 
+    async function fetchVault() {
+        const vault = await program.account.vault.fetch(lottery.vaultPda)
+        setVault(vault);
+        console.log(vault);
+
+    }
+
+
+    useEffect(() => {
+        fetchAllTickets()
+    }, [])
 
     const fetchAllTickets = async () => {
         if (!wallet?.publicKey) {
             console.log("Wallet not connected");
             return
         }
-
-        // console.log(wallet.publicKey.toBase58());
 
 
         const ticketAccounts = await program.account.ticket.all([
@@ -63,6 +82,12 @@ const dashboard = () => {
             console.log("Wallet not connected");
             return
         }
+
+        if (tickets.length < 4) {
+            toast.error("Cann't Draw!: thickets are less than four.")
+            return;
+        }
+
 
         const ticketsNumber = tickets.length;
         const winnersNumber = ticketsNumber * 0.25
@@ -108,7 +133,8 @@ const dashboard = () => {
                 })
                 .rpc()
 
-            console.log("Winners are drawn", tx)
+
+            toast.success(`Winners are drawn. ${tx}`)
 
             console.log("Winners are drawn")
 
@@ -142,11 +168,50 @@ const dashboard = () => {
         <>
             <section className="max-w-7xl h-screen mx-auto bg-purpe-600/20  p-4  flex flex-col  gap-x-8 gap-y-8">
 
+
                 <div>
                     <p className="text-4xl ">Dashboard  </p>
+
                     {lottery &&
-                        <div><DashLotteryCard data={lottery} />
-                        </div>
+
+                        <section>
+
+
+                            <div>
+                                <DashLotteryCard data={lottery} />
+
+
+                            </div>
+
+                            {tickets && lottery && (
+                                <div className="max-w-xl p-6 bg-gradient-to-br from-gray-900/20 to-purple-800/70 backdrop-blur-md shadow-2xl rounded-xl hover:shadow-gray-900/50 transition-shadow duration-300 my-6 space-y-2">
+
+                                    
+
+                                    <p>
+                                        <span className="font-medium text-gray-100">🔐 Vault Address:</span>{" "}
+                                        {lottery.vaultPda.toBase58()} 
+                                    </p>
+
+                                    <section className="flex gap-6 ">
+                                        <div className="p-2 border border-neutral-600/20 rounded-xl text-center bg-neutral-200/20" >
+                                            <p className="text-xl font-semibold text-neutral-200">Tickets Sold</p>
+                                            <span className="text-2xl font-semibold text-neutral-200"   >{tickets?.length}</span>
+                                        </div>
+
+                                        <div className="p-2 border border-neutral-600/20 rounded-xl text-center bg-neutral-200/20">
+                                            <p className="text-xl font-semibold text-neutral-200">Vault Balance</p>
+                                            <span className="text-2xl font-semibold text-neutral-200" >{(tickets?.length) * (lottery.ticketPrice.toNumber())}</span>
+                                        </div>
+
+                                    </section>
+
+
+                                </div>
+                            )}
+
+
+                        </section>
                     }
                 </div>
 
@@ -183,18 +248,18 @@ const dashboard = () => {
                                     </section>
 
                                     <div className="grid gap-4">
-                                        {data.account.winners.map((winnerPubkey:any, index:any) => {
+                                        {data.account.winners.map((winnerPubkey: any, index: any) => {
                                             return (
-                                                <div key={index } className="flex items-center gap-8 bg-neutral-500/20 px-8 py-2 rounded-xl shadow-lg hover:scale-[1.02] transition transform duration-300 ">
+                                                <div key={index} className="flex items-center gap-8 bg-neutral-500/20 px-8 py-2 rounded-xl shadow-lg hover:scale-[1.02] transition transform duration-300 ">
                                                     <p className="text-neutral-200/80" >{index + 1} </p>
                                                     <img
                                                         src="https://api.dicebear.com/7.x/identicon/svg?seed=winner1"
                                                         alt="winner"
                                                         className="size-8 rounded-full border-2 border-yellow-400 shadow-md"
                                                     />
-                                                    
+
                                                     <p className="font-mono text-sm md:text-base text-neutral-200/80 break-all">
-                                                        {winnerPubkey.toBase58()} 
+                                                        {winnerPubkey.toBase58()}
                                                     </p>
                                                 </div>
 
@@ -204,7 +269,7 @@ const dashboard = () => {
                                     </div>
 
                                     <div className="m-2 p-2 flex justify-end">
-                                    <button className=" font-semibold text-base bg-gradient-to-r from-purple-500/50 to-blue-600/50 rounded-md p-2 hover:scale-105 cursor-pointer text-neutral-200" >Initiate Payout </button>
+                                        <button className=" font-semibold text-base bg-gradient-to-r from-purple-500/50 to-blue-600/50 rounded-md p-2 hover:scale-105 cursor-pointer text-neutral-200" >Initiate Payout </button>
                                     </div>
                                 </div>
 

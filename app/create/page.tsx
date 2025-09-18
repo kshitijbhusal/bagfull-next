@@ -8,6 +8,7 @@ import { useProgram } from "@/lib/useProgram";
 import { BN } from "@project-serum/anchor";
 import PROGRAM_ID from "@/lib/constants";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 
 
@@ -29,16 +30,12 @@ function create() {
         }
 
         if(!lotteryName || !lotteryPrice){
-            alert("Details not provided.")
+            toast.error("Feilds are empty!")
             return;
         }
 
         try {
 
-
-
-
-            //-------------------------------
             // derive vault PDA (linked to lottery)
             const [vaultPda] = PublicKey.findProgramAddressSync(
                 [Buffer.from("vault"), Buffer.from(lotteryName)],
@@ -62,14 +59,17 @@ function create() {
                 })
                 .rpc();
 
-            console.log("Vault created in tx:", tx2);
+            
+             toast.success(`Vault Created:, ${vaultPda.toBase58()}`, {
+                duration:6000,
+             })
 
           
 
 
 
             const tx1 = await program.methods
-                .createLottery(lotteryName, new BN(1), vaultPda)
+                .createLottery(lotteryName, new BN(lotteryPrice), vaultPda)
                 .accounts({
                     lotteryAccount: lotteryPda,
                     signer: wallet?.publicKey,
@@ -77,9 +77,13 @@ function create() {
                 })
                 .rpc();
 
-            console.log("Transaction successful! Lottery Created", tx1);
-
-            console.log('lotteryPDA is', lotteryPda.toBase58());
+            // console.log("Transaction successful! Lottery Created", tx1);
+            
+            toast.success(`Lottery Created:, ${lotteryPda.toBase58()}`, {
+                duration:6000
+            })
+            setLotteryName("")
+            setLotteryPrice("")
 
 
 
@@ -87,6 +91,7 @@ function create() {
 
         } catch (error) {
             console.error("Failed to create Todo:", error);
+            toast.error("Unexpected error")
         }
     };
 

@@ -1,24 +1,17 @@
 "use client"
 import LotteryCard from '@/components/LotteryCard'
 import { useProgram } from '@/lib/useProgram'
-import { BN } from '@project-serum/anchor'
-import { useAnchorWallet } from '@solana/wallet-adapter-react'
-import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
-import { PublicKey, SystemProgram } from '@solana/web3.js'
+import { useAnchorWallet } from '@solana/wallet-adapter-react';
 import React, { useState } from 'react'
+
 
 
 
 export const Page = () => {
   const program = useProgram();
-  const wallet = useAnchorWallet()
+  const wallet = useAnchorWallet();
 
-  const [lotteries, setLotteries] = useState<any>([])
-  const [allTickets, setAllTickets] = useState<any>([])
-
-  const PROGRAM_ID = new PublicKey("G9fnVkph8qGQUNmLhhvj5BpsZfwVSNvUHDKi2E1YSzn8")
-
-  // console.log(program)
+  const [lotteries, setLotteries] = useState<any>([]);
 
   const fetchLottery = async () => {
     if (!wallet?.publicKey) {
@@ -35,15 +28,6 @@ export const Page = () => {
 
 
   }
-
-
-
-
-
-
-
-
-
 
 
   return (
