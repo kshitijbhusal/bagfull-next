@@ -3,12 +3,13 @@ import LotteryCard from '@/components/LotteryCard'
 import { useProgram } from '@/lib/useProgram'
 import type { Lottery } from '@/types/types';
 import { useAnchorWallet } from '@solana/wallet-adapter-react';
+import { NextPage } from 'next';
 import React, { useEffect, useState } from 'react'
 
 
 
 
-export const Page = () => {
+export const Home:NextPage = () => {
   const program = useProgram();
   const wallet = useAnchorWallet();
 
@@ -39,12 +40,10 @@ export const Page = () => {
 
       <div className='max-w-7xl h-screen mx-auto bg-purpe-600/20  p-4 '>
 
-        <div>
-          <button className='' onClick={fetchLottery} >Fetch Lottery</button>
-        </div>
+        
 
         <div className=' flex justify-center m-12'>
-          <h1 className='text-7xl w-fit   font-bold  text-center , text-transparent bg-clip-text bg-gradient-to-r from-[#9945FF] via-[#19FB9B] to-[#00FFA3] '>SOLANA LOTTERY SHOP</h1>
+          <h1 className='text-7xl w-fit    font-bold  text-center , text-transparent bg-clip-text bg-gradient-to-r from-[#9945FF] via-[#19FB9B] to-[#00FFA3] '>SOLANA LOTTERY SHOP</h1>
         </div>
 
 
@@ -57,7 +56,7 @@ export const Page = () => {
               <LotteryCard
                 
                 title={
-                  //@ts-expect-error : idk
+                  //@ts-expect-error : idk this
                   lottery.account.name}
                 price={
                   //@ts-expect-error : idk
@@ -88,4 +87,4 @@ export const Page = () => {
   )
 
 }
-export default Page;
+export default Home;
