@@ -10,13 +10,13 @@ import { useEffect, useState } from "react"
 
 import PROGRAM_ID from "@/lib/constants"
 import toast from "react-hot-toast"
+import Link from "next/link"
+import { ArrowLeft } from "lucide-react"
 
 const dashboard = () => {
     const { lotteryAddress }: any = useParams()
-    // const lotteryPDA = new PublicKey(lotteryAddress)
     const program = useProgram()
     const wallet = useAnchorWallet()
-    // const ACCOUNT_ADDRESS = new PublicKey(lotteryAddress)
 
 
     const [tickets, setTickets] = useState<any>()
@@ -36,7 +36,7 @@ const dashboard = () => {
         const lottery = await program.account.lottery.fetch(lotteryAddress)
         setLottery(lottery)
         console.log(lottery)
-        
+
 
     }
 
@@ -50,7 +50,7 @@ const dashboard = () => {
 
     useEffect(() => {
         fetchAllTickets()
-        
+
     }, [lottery])
 
     const fetchAllTickets = async () => {
@@ -102,10 +102,10 @@ const dashboard = () => {
         }
         console.log(winnersList)
 
-        const eachPrice = Math.floor((ticketsNumber * lottery.ticketPrice.toNumber())/winnersNumber)
+        const eachPrice = Math.floor((ticketsNumber * lottery.ticketPrice.toNumber()) / winnersNumber)
 
 
-        const vaultAddress = new PublicKey(lottery.vaultPda); 
+        const vaultAddress = new PublicKey(lottery.vaultPda);
 
 
 
@@ -138,6 +138,7 @@ const dashboard = () => {
 
 
             toast.success(`Winners drawn successfully. ${winnerPDA}`)
+            getSingleLottery()
 
             console.log("Winners are drawn")
 
@@ -157,8 +158,8 @@ const dashboard = () => {
 
         const winnersList = await program.account.winner.all([
             {
-                memcmp:{
-                    offset:8,
+                memcmp: {
+                    offset: 8,
                     bytes: lottery.lotteryPda.toBase58()
                 }
             }
@@ -178,6 +179,7 @@ const dashboard = () => {
 
         <>
             <section className="max-w-7xl h-screen mx-auto bg-purpe-600/20  p-4  flex flex-col  gap-x-8 gap-y-8">
+                <Link href={"/"} className=" border border-neutral-500  rounded-md p-2 w-fit flex items-center b-6 " ><ArrowLeft /> Back</Link>
 
 
                 <div>

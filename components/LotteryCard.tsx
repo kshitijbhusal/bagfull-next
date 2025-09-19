@@ -17,14 +17,17 @@ const lotteryCard = ({
   lotteryPDA,
   createdBy,
   id,
-  vault
+  vault,
+  isDrawn
 }: {
   title: string,
   price: number,
   lotteryPDA: string,
   createdBy: string,
-  id:Number,
-  vault:string
+  id: Number,
+  vault: string,
+  isDrawn: Boolean
+
 }) => {
 
   const program = useProgram()
@@ -68,7 +71,7 @@ const lotteryCard = ({
 
         }).rpc()
 
-      
+
 
       toast.success("Ticket purchased seccessfully!")
 
@@ -85,7 +88,7 @@ const lotteryCard = ({
       <div className="flex gap-6 items-start">
         {/* Left image */}
         <div className="w-48 h-36 rounded-md overflow-hidden border-2 border-green-200/40 bg-green-50/50 flex-shrink-0 flex items-center justify-center  ">
-          
+
           <Image src={`https://picsum.photos/id/${id}/200`} width={200} height={200} alt="Lottery Image" className="opacity-80" />
         </div>
 
@@ -94,7 +97,7 @@ const lotteryCard = ({
           <h2 className="text-2xl md:text-3xl font-semibold text-white/90 leading-tight">{title} </h2>
 
           <div className="mt-3 text-sm text-white/70 space-y-1">
-          
+
             <div className="flex items-center gap-2">
               <span className="text-xs text-white/60">Created by</span>
               <code className="bg-white/5 px-2 py-0.5 rounded text-xs font-medium">{createdBy} </code>
@@ -108,7 +111,7 @@ const lotteryCard = ({
 
           <div className="mt-5 flex items-center gap-6">
             <div className="text-sm text-white/80">
-              <div className="text-base">Ends in <span className="font-xl">24 hour</span></div>
+              <div className="text-base text-neutral-400">ends in <span className="text-2xl ">24 hour</span></div>
             </div>
 
             <div className="ml-auto text-center">
@@ -124,11 +127,20 @@ const lotteryCard = ({
             }} className="px-6 py-2 rounded-xl border border-white/12 bg-white/3 backdrop-blur-sm text-sm font-medium text-white/85 hover:scale-[1.02] transition-transform cursor-pointer ">Dashboard</button>
 
             <div className="ml-auto">
-              <button onClick={() => {
-                purchaseTicket(lotteryPDA)
-              }} className="px-5 py-2 rounded-xl bg-gradient-to-br from-lime-600/20 to-green-300/10 border border-green-300/30 text-green-50 font-semibold shadow-md hover:translate-y-[-2px] transition-all cursor-pointer ">
-                Buy now
-              </button>
+              {isDrawn ?
+                (
+                  <button  className="px-5 py-2 rounded-xl bg-gradient-to-br from-red-600/50 to-pink-300/10 border border-green-300/30 text-green-50 font-semibold shadow-md hover:translate-y-[-2px] transition-all  ">
+                    Expired
+                  </button>
+                ) : (
+                  <button onClick={
+                    () => {
+                      purchaseTicket(lotteryPDA)
+                    }
+                  } className="px-5 py-2 rounded-xl bg-gradient-to-br from-lime-600/50 to-green-300/10 border border-green-300/30 text-green-50 font-semibold shadow-md hover:translate-y-[-2px] transition-all cursor-pointer ">
+                    Buy now
+                  </button>
+                )}
             </div>
           </div>
         </div>
@@ -138,7 +150,7 @@ const lotteryCard = ({
       <div className="mt-6 border-t border-white/6 pt-4 text-xs text-white/40">
         <span>Lottery ID • Solana Network • <code className="bg-white/5 px-2 py-0.5 rounded text-xs font-medium">{lotteryPDA}</code> </span>
       </div>
-    </div>
+    </div >
 
   )
 

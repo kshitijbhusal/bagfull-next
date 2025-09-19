@@ -18,7 +18,7 @@ export const Page = () => {
       console.error("Wallet not connected");
       return;
     }
-    
+
     console.log("ctrl reach here")
     const lotteryData = await program.account.lottery.all();
     console.log("ctrl bypass")
@@ -31,39 +31,45 @@ export const Page = () => {
 
 
   return (
-    <div className='max-w-7xl h-screen mx-auto bg-purpe-600/20  p-4'>
+    <>
+    <div className='w-screen h-screen absolute z-[-10]   '></div>
 
-      <div>
-        <button className='' onClick={fetchLottery} >Fetch Lottery</button>
+      <div className='max-w-7xl h-screen mx-auto bg-purpe-600/20  p-4 '>
+
+        <div>
+          <button className='' onClick={fetchLottery} >Fetch Lottery</button>
+        </div>
+
+        <div className=' flex justify-center m-12'>
+          <h1 className='text-7xl w-fit   font-bold  text-center , text-transparent bg-clip-text bg-gradient-to-r from-[#9945FF] via-[#19FB9B] to-[#00FFA3] '>SOLANA LOTTERY SHOP</h1>
+        </div>
+
+
+
+
+        {
+          lotteries.map((lottery: any, index: any) => (
+            <div key={index} className='bg--500 flex flex-col  items-center justify-centre p-4 space-y-4'>
+
+              <LotteryCard
+                title={lottery.account.name}
+                price={lottery.account.ticketPrice.toNumber()}
+                lotteryPDA={lottery.account.lotteryPda.toBase58()}
+                createdBy={lottery.account.createdBy.toBase58()}
+                id={index + 200}
+                vault={lottery.account.vaultPda.toBase58()}
+                isDrawn={lottery.account.isDrawn}
+
+              />
+
+
+            </div>
+
+          ))
+        }
       </div>
-
-      <div className=' flex justify-center m-12'>
-        <h1 className='text-7xl w-fit   font-bold  text-center , text-transparent bg-clip-text bg-gradient-to-r from-[#9945FF] via-[#19FB9B] to-[#00FFA3] '>SOLANA LOTTERY SHOP</h1>
-      </div>
-
-
-
-
-      {
-        lotteries.map((lottery: any, index: any) => (
-          <div key={index} className='bg--500 flex flex-col  items-center justify-centre p-4 space-y-4'>
-          
-            <LotteryCard
-              title={lottery.account.name}
-              price={lottery.account.ticketPrice.toNumber()}
-              lotteryPDA={lottery.account.lotteryPda.toBase58()}
-              createdBy={lottery.account.createdBy.toBase58()}
-              id={index + 200}
-              vault={lottery.account.vaultPda.toBase58()}
-              
-            />
-            
-
-          </div>
-
-        ))
-      }
-    </div>
+    </>
   )
+
 }
 export default Page;
