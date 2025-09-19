@@ -1,21 +1,22 @@
-# Bagfull 🎒  
+# Bagfull 
 
 A decentralized lottery app built on **Solana + Anchor**, designed to be simple, transparent, and fair.  
 
-👉 [Live Demo](#) - https://bagfull-next.vercel.app/  
-🎥 [3-Minute Video Demo](#) - https://youtu.be/7ysQw-Tn5HI  
-👀 [Program ID](#) - FvMmdRs922eAkmVXtWN3oJSaBdYYSL6WYvqHR8xbL4wC
+ [Live Demo](#) - https://bagfull-next.vercel.app/  
+ [Smart Contract](#) - https://github.com/kshitijbhusal/bagfull-smartcontract
+ [3-Minute Video Demo](#) - https://youtu.be/7ysQw-Tn5HI 
+ [Program ID](#) - `FvMmdRs922eAkmVXtWN3oJSaBdYYSL6WYvqHR8xbL4wC`
 
 ---
 
-## 🌍 Problem Statement  
+##  Problem Statement  
 
 Traditional lotteries often suffer from **lack of transparency**, **trust issues**, and **slow payouts**.  
 People participate without knowing if the system is truly fair—or if it’s even winnable.  
 
 ---
 
-## 💡 Solution  
+##  Solution  
 
 **Bagfull** brings the lottery experience on-chain:  
 - Every ticket purchase, vault, and winner selection is recorded on Solana.  
@@ -24,14 +25,14 @@ People participate without knowing if the system is truly fair—or if it’s ev
 
 ---
 
-## 🚀 Business Potential  
+##  Business Potential  
 
 - **Global Reach**: Anyone with an internet connection and wallet can participate.  
 - **Low Costs**: Built on Solana’s low-fee ecosystem, making micro-lotteries possible.  
 - **Scalable Model**: Could expand into raffles, community-driven prize pools, or even NFT-based lotteries.  
 
 ---
-## 🧮 Logic / Math  
+##  Logic / Math  
 
 The winning system is designed to be **simple and fair**:  
 
@@ -52,15 +53,25 @@ So, in this case, **12 winners** would each get **8.33 SOL**.
 
 ---
 
-## ✨ Key Features  
+##  Key Features  
 
-- 🎟️ **Buy Tickets** with SOL in just a few clicks.  
-- 🔒 **Secure Vaults** for storing prize pools.  
-- 🎲 **Provably Fair Winner Selection** (no manual interference).  
-- 📜 **On-chain Records** so anyone can verify results.  
-- 🌐 **Fast & Cheap Transactions** powered by Solana.  
+-  **Buy Tickets** with SOL in just a few clicks.  
+-  **Secure Vaults** for storing prize pools.  
+-  **Provably Fair Winner Selection** (no manual interference).  
+-  **On-chain Records** so anyone can verify results.  
+-  **Fast & Cheap Transactions** powered by Solana.  
 
 ---
 
 
 - Tech Stack: Solana, Anchor, Next.js, TypeScript  
+
+---
+
+## Screenshots
+
+## Screenshots
+![Screenshot](public/img/s1.png)
+![Screenshot](public/img/s2.png)
+![Screenshot](public/img/s3.png)
+
