@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Bagfull 🎒  
 
-## Getting Started
+A decentralized lottery app built on **Solana + Anchor**, designed to be simple, transparent, and fair.  
 
-First, run the development server:
+👉 [Live Demo](#) - https://bagfull-next.vercel.app/  
+🎥 [3-Minute Video Demo](#) - https://youtu.be/7ysQw-Tn5HI  
+👀 [Program ID](#) - FvMmdRs922eAkmVXtWN3oJSaBdYYSL6WYvqHR8xbL4wC
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🌍 Problem Statement  
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Traditional lotteries often suffer from **lack of transparency**, **trust issues**, and **slow payouts**.  
+People participate without knowing if the system is truly fair—or if it’s even winnable.  
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 💡 Solution  
 
-To learn more about Next.js, take a look at the following resources:
+**Bagfull** brings the lottery experience on-chain:  
+- Every ticket purchase, vault, and winner selection is recorded on Solana.  
+- No middlemen, no shady practices.  
+- Just code, math, and chance—open for anyone to verify.  
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🚀 Business Potential  
 
-## Deploy on Vercel
+- **Global Reach**: Anyone with an internet connection and wallet can participate.  
+- **Low Costs**: Built on Solana’s low-fee ecosystem, making micro-lotteries possible.  
+- **Scalable Model**: Could expand into raffles, community-driven prize pools, or even NFT-based lotteries.  
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
+## 🧮 Logic / Math  
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The winning system is designed to be **simple and fair**:  
+
+1. **Total Participants** = `N`  
+2. **Number of Winners** = `25% of N`  
+   - Example: If 50 people participate → 12 winners (rounded down).  
+3. **Total Prize Pool (Vault)** = Sum of all ticket purchases.  
+4. **Payout per Winner** =  `Total Prize Pool / 25% of N`
+
+### Example  
+
+- Total Participants: **50**  
+- Vault Value: **2 SOL**  
+- Winners: **25% of 50 = 12**  
+- Payout per Winner: **2 x 50 ÷ 12 = 8.33 SOL each**  
+
+So, in this case, **12 winners** would each get **8.33 SOL**.  
+
+---
+
+## ✨ Key Features  
+
+- 🎟️ **Buy Tickets** with SOL in just a few clicks.  
+- 🔒 **Secure Vaults** for storing prize pools.  
+- 🎲 **Provably Fair Winner Selection** (no manual interference).  
+- 📜 **On-chain Records** so anyone can verify results.  
+- 🌐 **Fast & Cheap Transactions** powered by Solana.  
+
+---
+
+
+- Tech Stack: Solana, Anchor, Next.js, TypeScript  
