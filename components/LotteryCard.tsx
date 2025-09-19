@@ -1,14 +1,18 @@
 "use client"
 import { useProgram } from "@/lib/useProgram";
-import { BN } from "@project-serum/anchor";
-import { useAnchorWallet } from "@solana/wallet-adapter-react";
-import { PublicKey, SystemProgram } from "@solana/web3.js";
+import { BN, Wallet } from "@project-serum/anchor";
+import { useAnchorWallet, useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { PublicKey, SystemProgram, Transaction } from "@solana/web3.js";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 import PROGRAM_ID from "@/lib/constants";
 import toast from "react-hot-toast";
 import Link from "next/link";
+
+
+import { AnchorProvider } from "@project-serum/anchor";
+
 
 const LotteryCard = ({
   title,
@@ -32,32 +36,51 @@ const LotteryCard = ({
   const program = useProgram()
   console.log('createdBy', createdBy)
   const router = useRouter()
+
   const wallet = useAnchorWallet()
+  const { connection } = useConnection()
+
+
 
 
 
   const purchaseTicket = async (lottery_pda: string) => {
 
+
     if (!wallet?.publicKey) {
-      console.error("Wallet not connected");
+      toast.error("Please connect wallet.")
       return;
     }
 
+    const provider = new AnchorProvider(connection, wallet as Wallet, {
+      preflightCommitment: "confirmed"
+    })
+
+    const lotteryPda = new PublicKey(lottery_pda)
     try {
-      console.log('hhhhhhhhhhhhhhhhhhhh', lottery_pda);
-
-      const lotteryPda = new PublicKey(lottery_pda)
-      console.log('passed lottery pda is ', lotteryPda.toBase58());
-
-
       const [ticketPDA, bump] = PublicKey.findProgramAddressSync(
         [Buffer.from("ticket"), wallet.publicKey.toBuffer(), lotteryPda.toBuffer()],
         PROGRAM_ID
       );
 
-      console.log('ticketPDA is ', ticketPDA.toBase58());
 
       const lotteryName = title;
+
+      // Send Amount Specefic
+      const vaultPda = new PublicKey(vault)
+      const lamports = price * 1000000000;
+
+
+      const transferTx = new Transaction().add(
+        SystemProgram.transfer({
+          fromPubkey: wallet.publicKey,
+          toPubkey: vaultPda,
+          lamports,
+        })
+      );
+
+      // 2️⃣ Send the transfer transaction
+      await provider.sendAndConfirm(transferTx);
 
 
       const tx = await program.methods
@@ -76,7 +99,7 @@ const LotteryCard = ({
 
     } catch (error) {
       console.log('Error while purchase ticket', error);
-      toast.error("Error: purchasing ticket!")
+      toast.error("Already purchased from this accoiunt.")
 
     }
 
@@ -128,7 +151,7 @@ const LotteryCard = ({
             <div className="ml-auto">
               {isDrawn ?
                 (
-                  <button  className="px-5 py-2 rounded-xl bg-gradient-to-br from-red-600/50 to-pink-300/10 border border-green-300/30 text-green-50 font-semibold shadow-md hover:translate-y-[-2px] transition-all  ">
+                  <button className="px-5 py-2 rounded-xl bg-gradient-to-br from-red-600/50 to-pink-300/10 border border-green-300/30 text-green-50 font-semibold shadow-md hover:translate-y-[-2px] transition-all  ">
                     Expired
                   </button>
                 ) : (

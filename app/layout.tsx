@@ -5,6 +5,7 @@ import WalletContextProvider from "../lib/WalletContextProvider";
 import Nav from "../components/Nav"
 import { Toaster } from "react-hot-toast";
 
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -28,15 +29,20 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black`}
       >
         <WalletContextProvider>
+          
 
-          <div>
-            <Nav />
-            {children}
-            <Toaster/>
-          </div>
+
+
+            <div>
+              <Nav />
+              {children}
+              <Toaster />
+            </div>
+
+          
         </WalletContextProvider>
       </body>
     </html>

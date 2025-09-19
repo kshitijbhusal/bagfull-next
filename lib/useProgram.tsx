@@ -7,6 +7,7 @@ import idl from "./idl.json"
 import PROGRAM_ID from "./constants"
 
 export const useProgram = () => {
+    
     const {connection} = useConnection()
     const wallet = useAnchorWallet()
 

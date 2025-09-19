@@ -27,10 +27,6 @@ const WalletContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         [network]
     );
 
-
-
-
-
     return (
         <ConnectionProvider endpoint={endpoint}>
             <WalletProvider wallets={wallets} autoConnect>

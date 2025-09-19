@@ -3,6 +3,7 @@ import LotteryCard from '@/components/LotteryCard'
 import { useProgram } from '@/lib/useProgram'
 import type { Lottery } from '@/types/types';
 import { useAnchorWallet } from '@solana/wallet-adapter-react';
+import { Wallet2 } from 'lucide-react';
 import { NextPage } from 'next';
 import React, { useEffect, useState } from 'react'
 
@@ -20,11 +21,7 @@ const Home:NextPage = () => {
   },[])
 
   const fetchLottery = async () => {
-    if (!wallet?.publicKey) {
-      console.error("Wallet not connected");
-      return;
-    }
-
+    
     const lotteryData = await program.account.lottery.all();
 
     setLotteries(lotteryData as Lottery[])
@@ -38,7 +35,7 @@ const Home:NextPage = () => {
     <>
       <div className='w-screen h-screen absolute z-[-10]   '></div>
 
-      <div className='max-w-7xl h-screen mx-auto bg-purpe-600/20  p-4 '>
+      <div className=' md:max-w-7xl h-screen mx-auto bg-purpe-600/20  p-4 '>
 
         <div className=' flex justify-center m-12'>
           <h1 className='text-7xl w-fit    font-bold  text-center , text-transparent bg-clip-text bg-gradient-to-r from-[#9945FF] via-[#19FB9B] to-[#00FFA3] '>SOLANA LOTTERY SHOP</h1>
@@ -65,7 +62,7 @@ const Home:NextPage = () => {
                 createdBy={
                   //@ts-expect-error : idk
                   lottery.account.createdBy.toBase58()}
-                id={index + 200}
+                id={index + 151}
                 vault={
                   //@ts-expect-error : idk
                   lottery.account.vaultPda.toBase58()}

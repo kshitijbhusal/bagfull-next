@@ -28,6 +28,7 @@ const Dashboard = () => {
 
 
 
+
     useEffect(() => {
         getSingleLottery()
     }, [])
@@ -35,8 +36,6 @@ const Dashboard = () => {
 
 
     async function getSingleLottery() {
-
-
         const lottery = await program.account.lottery.fetch(lotteryAddress)
         console.log('lottery ko type herna ', lottery)
         setLottery(lottery as Lottery)
@@ -50,11 +49,8 @@ const Dashboard = () => {
 
     }, [lottery])
 
+
     const fetchAllTickets = async () => {
-        if (!wallet?.publicKey) {
-            console.log("Wallet not connected");
-            return;
-        }
 
         if (!lottery) {
             console.log("Lottery Not found");
@@ -73,7 +69,6 @@ const Dashboard = () => {
             }
         ]);
 
-        console.log('ticketAccounts herna type ko lagi ', ticketAccounts);
         setTickets(ticketAccounts as Ticket[])
         setLotteryWinnerList(null)
 
@@ -84,9 +79,9 @@ const Dashboard = () => {
 
     const drawWinners = async () => {
 
-        if (!wallet?.publicKey) {
-            console.log("Wallet not connected");
-            return
+        if (!wallet) {
+            toast.error("Please connect wallet")
+            return;
         }
         if (!lottery) {
             console.log("Lottery Not found");
@@ -96,7 +91,7 @@ const Dashboard = () => {
 
 
         if (!tickets || (tickets.length) < 4) {
-            toast.error("Cann't Draw!: thickets are less than four.")
+            toast.error("Cann't Draw,  Thickets are less than four.")
             return;
         }
 
@@ -167,11 +162,6 @@ const Dashboard = () => {
 
     const getWinnersList = async () => {
 
-        if (!wallet?.publicKey) {
-            console.log("Wallet not connected");
-            return
-        };
-
         if (!lottery) {
             console.log("Lottery Not found");
             return;
@@ -214,9 +204,9 @@ const Dashboard = () => {
 
 
                             <div>
-                                { 
-                                //@ts-expect-error : unexpected
-                                <DashLotteryCard data={lottery} />
+                                {
+                                    //@ts-expect-error : unexpected
+                                    <DashLotteryCard data={lottery} />
                                 }
                             </div>
 

@@ -20,6 +20,13 @@ function Create() {
     const [lotteryPrice, setLotteryPrice] = useState("")
 
 
+    
+    if(!wallet?.publicKey) {
+        toast.error("Please connect wallet!")
+        return;
+    }
+
+
 
 
     const createLottery = async (e:React.FormEvent<HTMLFormElement>) => {

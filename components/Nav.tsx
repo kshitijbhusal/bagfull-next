@@ -5,6 +5,13 @@ import { useRouter } from "next/navigation";
 import logo from ".././public/logo.svg"
 import Image from "next/image";
 
+
+import dynamic from 'next/dynamic';
+const WalletMultiButtonDynamic = dynamic(
+    async () => (await import('@solana/wallet-adapter-react-ui')).WalletMultiButton,
+    { ssr: false }
+);
+
 function Nav() {
     const router = useRouter()
     return (
@@ -19,8 +26,12 @@ function Nav() {
                         className=" flex items-end gap-x-2 pb-2 cursor-pointer" >
 
                         <div>
-                            <div
+                            {/* <div
                                 className="bg-gradient-to-t from-[#9945FF] via-[#19FB9B] to-[#00FFA3] size-10 rounded-full ">
+                            </div> */}
+                        
+                           <div
+                                className="bg-gradient-to-t from-yellow-500 via-[#19FB9B] to-blue-600 size-10 rounded-full ">
                             </div>
                         </div>
 
@@ -32,7 +43,7 @@ function Nav() {
                     <div className="flex items-center gap-x-4">
                         <Link href={"/create"} className="bg-transparent border border-zinc-400/40  text-base font-bold hover:bg-zinc-800/20 cursor-pointer rounded-md p-2 , text-transparent bg-clip-text bg-gradient-to-br from-[#9945FF] via-[#19FB9B] to-[#00FFA3]" >Create Lottery</Link>
 
-                        <WalletMultiButton />
+                        <WalletMultiButtonDynamic />
                     </div>
                 </header>
 

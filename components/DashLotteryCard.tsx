@@ -3,18 +3,19 @@ import { BN } from "@project-serum/anchor";
 import { PublicKey } from "@solana/web3.js";
 
 
- type dataType =  {
-        name: string,
-        ticketPrice: BN,
-        lotteryPda: PublicKey,
-        createdBy: PublicKey,
-        isOpen: boolean,
-        isDrawn: boolean,
-        isPayoutDone: boolean,
- }
+type dataType = {
+    name: string,
+    ticketPrice: BN,
+    lotteryPda: PublicKey,
+    createdBy: PublicKey,
+    isDrawn: boolean,
+    isPayoutDone: boolean,
+    isOpen: boolean,
+
+}
 
 
-const DashLotteryCard = ({ data }:{data:dataType}) => {
+const DashLotteryCard = ({ data }: { data: dataType }) => {
 
     if (!data.name) {
         return (
@@ -56,7 +57,7 @@ const DashLotteryCard = ({ data }:{data:dataType}) => {
                         >
                             Open <br /> {data.isOpen ? "✅" : "❌"}
                         </div>
-                        
+
                         <div
                             className={`p-2 rounded-xl font-semibold shadow-inner ${data.isDrawn
                                 ? "bg-green-500/20 text-green-300 border border-green-600/40"
