@@ -3,8 +3,11 @@
 A decentralized lottery app built on **Solana + Anchor**, designed to be simple, transparent, and fair.  
 
  [Live Demo](#) - https://bagfull-next.vercel.app/  
+ 
  [Smart Contract](#) - https://github.com/kshitijbhusal/bagfull-smartcontract
+ 
  [3-Minute Video Demo](#) - https://youtu.be/7ysQw-Tn5HI 
+ 
  [Program ID](#) - `FvMmdRs922eAkmVXtWN3oJSaBdYYSL6WYvqHR8xbL4wC`
 
 ---
