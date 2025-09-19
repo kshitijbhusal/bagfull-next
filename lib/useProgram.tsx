@@ -1,5 +1,5 @@
 "use client"
-import { AnchorProvider, Program } from "@project-serum/anchor"
+import { AnchorProvider, Program, Wallet } from "@project-serum/anchor"
 import { useAnchorWallet, useConnection } from "@solana/wallet-adapter-react"
 import { type Idl } from "@project-serum/anchor"
 import idl from "./idl.json"
@@ -10,7 +10,7 @@ export const useProgram = () => {
     const {connection} = useConnection()
     const wallet = useAnchorWallet()
 
-    const provider = new AnchorProvider(connection, wallet as any, {
+    const provider = new AnchorProvider(connection, wallet as Wallet, {
         preflightCommitment:"confirmed"
     })
 

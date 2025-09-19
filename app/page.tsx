@@ -3,7 +3,7 @@ import LotteryCard from '@/components/LotteryCard'
 import { useProgram } from '@/lib/useProgram'
 import type { Lottery } from '@/types/types';
 import { useAnchorWallet } from '@solana/wallet-adapter-react';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 
 
@@ -13,6 +13,10 @@ export const Page = () => {
   const wallet = useAnchorWallet();
 
   const [lotteries, setLotteries] = useState<Lottery[] | null >(null);
+
+  useEffect(()=>{
+    fetchLottery()
+  },[])
 
   const fetchLottery = async () => {
     if (!wallet?.publicKey) {
