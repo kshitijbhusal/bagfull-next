@@ -67,7 +67,7 @@ const Dashboard = () => {
             {
                 memcmp: {
                     offset: 24,
-                    //@ts-ignore :Anchor-generated account type is mismatched, lotteryPda exists on-chain
+                    //@ts-expect-error :Anchor-generated account type is mismatched, lotteryPda exists on-chain
                     bytes: lottery.lotteryPda.toBase58(),
                 }
             }
@@ -110,21 +110,21 @@ const Dashboard = () => {
 
         for (let i = 0; i < winnersNumber; i++) {
             const rand = Math.floor(Math.random() * ticketsNumber)
-            // @ts-ignore: Anchor-generated account type is mismatched, ticketOwner exists on-chain
+            // @ts-expect-error: Anchor-generated account type is mismatched, ticketOwner exists on-chain
             const eachPubKey = tickets[rand].account.ticketOwner;
             winnersList.push(eachPubKey)
         }
         console.log(winnersList)
-        // @ts-ignore: Anchor-generated account type is mismatched, ticketPrice exists on-chain
+        // @ts-expect-error: Anchor-generated account type is mismatched, ticketPrice exists on-chain
         const eachPrice = Math.floor((ticketsNumber * lottery.ticketPrice.toNumber()) / winnersNumber)
 
-        // @ts-ignore: Anchor-generated account type is mismatched, vaultPda exists on-chain
+        // @ts-expect-error: Anchor-generated account type is mismatched, vaultPda exists on-chain
         const vaultAddress = new PublicKey(lottery.vaultPda);
 
 
 
         try {
-            // @ts-ignore: Anchor-generated account type is mismatched, name exists on-chain
+            // @ts-expect-error: Anchor-generated account type is mismatched, name exists on-chain
             const lotteryName = lottery.name
 
             const [lotteryPDA] = PublicKey.findProgramAddressSync(
@@ -182,7 +182,7 @@ const Dashboard = () => {
                 memcmp: {
                     offset: 8,
 
-                    //@ts-ignore :Anchor-generated account type is mismatched, lotteryPda exists on-chain
+                    //@ts-expect-error :Anchor-generated account type is mismatched, lotteryPda exists on-chain
                     bytes: lottery.lotteryPda.toBase58()
                 }
             }
@@ -214,7 +214,10 @@ const Dashboard = () => {
 
 
                             <div>
+                                { 
+                                //@ts-expect-error : unexpected
                                 <DashLotteryCard data={lottery} />
+                                }
                             </div>
 
                             {tickets && lottery && (
@@ -227,7 +230,7 @@ const Dashboard = () => {
 
                                         <code className="text-neutral-400">{
 
-                                            //@ts-ignore :Anchor-generated account type is mismatched, lotteryPda exists on-chain
+                                            //@ts-expect-error :Anchor-generated account type is mismatched, lotteryPda exists on-chain
                                             lottery.vaultPda.toBase58()
                                         }
 
@@ -244,7 +247,7 @@ const Dashboard = () => {
                                             <p className="text-base font-semibold text-neutral-400">Vault Balance</p>
                                             <span className="text-2xl font-semibold text-neutral-400" >$ {
 
-                                                //@ts-ignore :Anchor-generated account type is mismatched, ticketPrice exists on-chain
+                                                //@ts-expect-error :Anchor-generated account type is mismatched, ticketPrice exists on-chain
                                                 (tickets?.length) * (lottery.ticketPrice.toNumber())} <span className="text-base" >SOL</span></span>
                                         </div>
 
@@ -264,14 +267,14 @@ const Dashboard = () => {
                 <div className="flex justify-around w-full ">
                     <button onClick={fetchAllTickets} className="border border-neutral-200/40 text-white px-2 py-1 rounded-md hover:shadow-purple-500/20 cursor-pointer hover:scale-105 transition  duration-300"> All Tickets</button>
                     {
-                        //@ts-ignore :Anchor-generated account type is mismatched, isDrawn exists on-chain
+                        //@ts-expect-error :Anchor-generated account type is mismatched, isDrawn exists on-chain
                         lottery.isDrawn && (
                             <button onClick={getWinnersList} className="bg-lime-600 text-white px-2 py-1 rounded-md hover:shadow-purple-500/20 cursor-pointer hover:scale-105">Lottery Winners</button>
                         )}
 
                     {
 
-                        //@ts-ignore :Anchor-generated account type is mismatched, isDrawn exists on-chain
+                        //@ts-expect-error :Anchor-generated account type is mismatched, isDrawn exists on-chain
                         !lottery.isDrawn && (
                             <button onClick={drawWinners} className="bg-green-800 text-white rounded-md px-2 py-2 hover:shadow-purple-500/20 cursor-pointer hover:scale-105">Draw Winners</button>
                         )}
@@ -358,7 +361,7 @@ const Dashboard = () => {
                                             <tr key={index} className="hover:bg-gray-700/50 transition-all duration-300 hover:translate-x-1 group">
                                                 <td className="px-6 py-4 text-gray-300 font-mono text-sm border-r border-gray-700/50 last:border-r-0 group-hover:text-gray-100">
                                                     {
-                                                        //@ts-ignore :Anchor-generated account type is mismatched, ticketId exists on-chain
+                                                        //@ts-expect-error :Anchor-generated account type is mismatched, ticketId exists on-chain
                                                         ticket.account.ticketId.toNumber()}
                                                 </td>
                                                 <td className="px-6 py-4 text-gray-300 font-mono text-sm border-r border-gray-700/50 last:border-r-0 group-hover:text-gray-100">
@@ -367,7 +370,7 @@ const Dashboard = () => {
                                                 </td>
                                                 <td className="px-6 py-4 text-gray-300 border-r border-gray-700/50 last:border-r-0 group-hover:text-gray-100">
                                                     {
-                                                        //@ts-ignore :Anchor-generated account type is mismatched, ticketOwner exists on-chain
+                                                        //@ts-expect-error :Anchor-generated account type is mismatched, ticketOwner exists on-chain
                                                         ticket.account.ticketOwner.toBase58()}
                                                 </td>
                                                 <td className="px-6 py-4 border-r border-gray-700/50 last:border-r-0">Verified

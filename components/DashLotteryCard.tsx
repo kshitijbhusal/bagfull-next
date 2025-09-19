@@ -1,22 +1,21 @@
 "use client"
+import type { Lottery } from "@/types/types";
 import { BN } from "@project-serum/anchor";
 import { PublicKey } from "@solana/web3.js";
 
 
-
-const DashLotteryCard = ({ data }: { 
-    data: {
-        name:string,
-        ticketPrice:BN,
+ type data =  {
+        name: string,
+        ticketPrice: BN,
         lotteryPda: PublicKey,
         createdBy: PublicKey,
-        isOpen:Boolean,
-        isDrawn:Boolean,
-        isPayoutDone:Boolean
+        isOpen: Boolean,
+        isDrawn: Boolean,
+        isPayoutDone: Boolean,
+ }
 
 
-
-} }) => {
+const DashLotteryCard = ({ data }:{data:data}) => {
 
     console.log('data is ', data);
     if (!data.name) {

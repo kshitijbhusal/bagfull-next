@@ -53,23 +53,23 @@ export const Page = () => {
               <LotteryCard
                 
                 title={
-                  //@ts-ignore : idk
+                  //@ts-expect-error : idk
                   lottery.account.name}
                 price={
-                  //@ts-ignore : idk
+                  //@ts-expect-error : idk
                   lottery.account.ticketPrice.toNumber()}
                 lotteryPDA={
-                  //@ts-ignore : idk
+                  //@ts-expect-error : idk
                   lottery.account.lotteryPda.toBase58()}
                 createdBy={
-                  //@ts-ignore : idk
+                  //@ts-expect-error : idk
                   lottery.account.createdBy.toBase58()}
                 id={index + 200}
                 vault={
-                  //@ts-ignore : idk
+                  //@ts-expect-error : idk
                   lottery.account.vaultPda.toBase58()}
                 isDrawn={
-                  //@ts-ignore : idk
+                  //@ts-expect-error : idk
                   lottery.account.isDrawn}
 
               />

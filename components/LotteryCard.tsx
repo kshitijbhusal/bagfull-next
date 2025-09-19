@@ -10,7 +10,7 @@ import PROGRAM_ID from "@/lib/constants";
 import toast from "react-hot-toast";
 import Link from "next/link";
 
-const lotteryCard = ({
+const LotteryCard = ({
   title,
   price,
   lotteryPDA,
@@ -23,9 +23,9 @@ const lotteryCard = ({
   price: number,
   lotteryPDA: string,
   createdBy: string,
-  id: Number,
+  id: number,
   vault: string,
-  isDrawn: Boolean
+  isDrawn: boolean
 
 }) => {
 
@@ -156,4 +156,4 @@ const lotteryCard = ({
 }
 
 
-export default lotteryCard;
+export default LotteryCard;
