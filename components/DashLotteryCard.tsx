@@ -1,9 +1,31 @@
 "use client"
-const DashLotteryCard = ({ data }: { data: any }) => {
+import { BN } from "@project-serum/anchor";
+import { PublicKey } from "@solana/web3.js";
+
+
+
+const DashLotteryCard = ({ data }: { 
+    data: {
+        name:string,
+        ticketPrice:BN,
+        lotteryPda: PublicKey,
+        createdBy: PublicKey,
+        isOpen:Boolean,
+        isDrawn:Boolean,
+        isPayoutDone:Boolean
+
+
+
+} }) => {
 
     console.log('data is ', data);
     if (!data.name) {
-        return <p>Loading...</p>
+        return (
+            <div className="max-w-xl mx-auto" >
+                <p className="text-center">Loading...</p>
+            </div>
+        )
+
     }
 
     return (
@@ -32,24 +54,24 @@ const DashLotteryCard = ({ data }: { data: any }) => {
                     <div className="grid grid-cols-3 gap-3 text-center">
                         <div
                             className={`p-2 rounded-xl font-semibold shadow-inner ${data.isOpen
-                                    ? "bg-green-500/20 text-green-300 border border-green-600/40"
-                                    : "bg-red-500/20 text-red-300 border border-red-600/40"
+                                ? "bg-green-500/20 text-green-300 border border-green-600/40"
+                                : "bg-red-500/20 text-red-300 border border-red-600/40"
                                 }`}
                         >
                             Open <br /> {data.isOpen ? "✅" : "❌"}
                         </div>
                         <div
                             className={`p-2 rounded-xl font-semibold shadow-inner ${data.isDrawn
-                                    ? "bg-green-500/20 text-green-300 border border-green-600/40"
-                                    : "bg-yellow-500/20 text-yellow-300 border border-yellow-600/40"
+                                ? "bg-green-500/20 text-green-300 border border-green-600/40"
+                                : "bg-yellow-500/20 text-yellow-300 border border-yellow-600/40"
                                 }`}
                         >
                             Drawn <br /> {data.isDrawn ? "✅" : "⏳"}
                         </div>
                         <div
                             className={`p-2 rounded-xl font-semibold shadow-inner ${data.isPayoutDone
-                                    ? "bg-green-500/20 text-green-300 border border-green-600/40"
-                                    : "bg-blue-500/20 text-blue-300 border border-blue-600/40"
+                                ? "bg-green-500/20 text-green-300 border border-green-600/40"
+                                : "bg-blue-500/20 text-blue-300 border border-blue-600/40"
                                 }`}
                         >
                             Payout <br /> {data.isPayoutDone ? "💸" : "⏳"}

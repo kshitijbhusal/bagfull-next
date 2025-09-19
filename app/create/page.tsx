@@ -12,7 +12,7 @@ import toast from "react-hot-toast";
 
 
 
-function create() {
+function Create() {
 
     const wallet = useAnchorWallet();
     const program = useProgram();
@@ -22,7 +22,7 @@ function create() {
 
 
 
-    const createLottery = async (e: any) => {
+    const createLottery = async (e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         if (!wallet?.publicKey) {
             console.error("Wallet not connected");
@@ -105,16 +105,20 @@ function create() {
                 <Link href={"/"} className=" border border-neutral-500  rounded-md p-2 absolute flex items-center b-6 " ><ArrowLeft /> Back</Link>
                 <h1 className="text-center text-4xl">Create Your Own Lottery</h1>
 
-                <form className="bg-neutral-800/40 shadow-lg rounded-2xl p-8 w-full max-w-2xl space-y-6 mx-auto">
-                    <h2 className="text-2xl font-bold text-white text-center">
-                        Create Lottery
+                <form 
+                onSubmit={(e)=>{
+                    createLottery(e)
+                }}
+                className="bg-neutral-800/40 shadow-lg rounded-2xl p-8 w-full max-w-2xl space-y-6 mx-auto">
+                    <h2 className="text-2xl font-bold text-white ">
+                        Lottery Form
                     </h2>
 
                     {/* Lottery Name */}
                     <div className="flex flex-col">
                         <label
                             htmlFor="name"
-                            className="text-sm font-medium text-gray-300 mb-2"
+                            className="text-base font-medium text-gray-300 mb-2"
                         >
                             Lottery Name
                         </label>
@@ -122,7 +126,7 @@ function create() {
                             id="name"
                             type="text"
                             placeholder="Enter lottery name"
-                            className="border border-gray-600 bg-gray-700/50 text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            className="border border-gray-600 bg-gray-700/50 text-white rounded-lg px-4 text-xl py-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                             onChange={(e)=>setLotteryName(e.target.value)}
                         />
                     </div>
@@ -131,7 +135,7 @@ function create() {
                     <div className="flex flex-col">
                         <label
                             htmlFor="price"
-                            className="text-sm font-medium text-gray-300 mb-2"
+                            className="text-base font-medium text-gray-300 mb-2"
                         >
                             Ticket Price (SOL)
                         </label>
@@ -139,16 +143,13 @@ function create() {
                             id="price"
                             type="number"
                             placeholder="Enter SOL amount"
-                            className="border border-gray-600 bg-gray-700/50 text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            className="border border-gray-600 bg-gray-700/50 text-white rounded-lg px-4 py-4 text-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
                             onChange={(e)=>setLotteryPrice(e.target.value)}
                         />
                     </div>
 
                     {/* Submit */}
                     <button
-                        onClick={(e) => {
-                            createLottery(e)
-                        }}
                         type="submit"
                         className="w-fit px-2 cursor-pointer bg-sky-600 text-white font-semibold py-2 rounded-lg hover:bg-indigo-700 transition"
                     >
@@ -161,4 +162,4 @@ function create() {
 }
 
 
-export default create;
+export default Create;

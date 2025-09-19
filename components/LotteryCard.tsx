@@ -3,7 +3,6 @@ import { useProgram } from "@/lib/useProgram";
 import { BN } from "@project-serum/anchor";
 import { useAnchorWallet } from "@solana/wallet-adapter-react";
 import { PublicKey, SystemProgram } from "@solana/web3.js";
-import { redirect } from "next/dist/server/api-utils";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 

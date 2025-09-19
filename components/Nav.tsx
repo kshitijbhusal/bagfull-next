@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import logo from ".././public/logo.svg"
 import Image from "next/image";
 
-function nav() {
+function Nav() {
     const router = useRouter()
     return (
         <>
@@ -43,4 +43,4 @@ function nav() {
 }
 
 
-export default nav;
+export default Nav;

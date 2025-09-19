@@ -13,16 +13,18 @@ import toast from "react-hot-toast"
 import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
 
-const dashboard = () => {
-    const { lotteryAddress }: any = useParams()
+import type { Ticket, Lottery, Winner } from "@/types/types"
+
+
+const Dashboard = () => {
+    const { lotteryAddress }: { lotteryAddress: string } = useParams()
     const program = useProgram()
     const wallet = useAnchorWallet()
 
 
-    const [tickets, setTickets] = useState<any>()
-    const [lottery, setLottery] = useState<any>()
-    const [vault, setVault] = useState<any>()
-    const [lotteryWinnerList, setLotteryWinnerList] = useState<any>()
+    const [tickets, setTickets] = useState<Ticket[] | null>(null)
+    const [lottery, setLottery] = useState<Lottery | null>(null)
+    const [lotteryWinnerList, setLotteryWinnerList] = useState<Winner[] | null>(null)
 
 
 
@@ -33,17 +35,12 @@ const dashboard = () => {
 
 
     async function getSingleLottery() {
+
+
         const lottery = await program.account.lottery.fetch(lotteryAddress)
-        setLottery(lottery)
-        console.log(lottery)
+        console.log('lottery ko type herna ', lottery)
+        setLottery(lottery as Lottery)
 
-
-    }
-
-    async function fetchVault() {
-        const vault = await program.account.vault.fetch(lottery.vaultPda)
-        setVault(vault);
-        console.log(vault);
 
     }
 
@@ -56,24 +53,32 @@ const dashboard = () => {
     const fetchAllTickets = async () => {
         if (!wallet?.publicKey) {
             console.log("Wallet not connected");
-            return
+            return;
         }
+
+        if (!lottery) {
+            console.log("Lottery Not found");
+            return;
+
+        }
+
 
         const ticketAccounts = await program.account.ticket.all([
             {
                 memcmp: {
                     offset: 24,
+                    //@ts-ignore :Anchor-generated account type is mismatched, lotteryPda exists on-chain
                     bytes: lottery.lotteryPda.toBase58(),
                 }
             }
         ]);
 
-        console.log(ticketAccounts);
-        setTickets(ticketAccounts)
-        setLotteryWinnerList("")
+        console.log('ticketAccounts herna type ko lagi ', ticketAccounts);
+        setTickets(ticketAccounts as Ticket[])
+        setLotteryWinnerList(null)
 
     }
-    const winnersList: any = [];
+
 
 
 
@@ -83,8 +88,14 @@ const dashboard = () => {
             console.log("Wallet not connected");
             return
         }
+        if (!lottery) {
+            console.log("Lottery Not found");
+            return;
 
-        if (tickets.length < 4) {
+        }
+
+
+        if (!tickets || (tickets.length) < 4) {
             toast.error("Cann't Draw!: thickets are less than four.")
             return;
         }
@@ -95,21 +106,25 @@ const dashboard = () => {
 
         console.log(ticketsNumber, winnersNumber, tickets);
 
+        const winnersList: PublicKey[] = [];
 
         for (let i = 0; i < winnersNumber; i++) {
             const rand = Math.floor(Math.random() * ticketsNumber)
-            winnersList.push((tickets[rand]).account.ticketOwner)
+            // @ts-ignore: Anchor-generated account type is mismatched, ticketOwner exists on-chain
+            const eachPubKey = tickets[rand].account.ticketOwner;
+            winnersList.push(eachPubKey)
         }
         console.log(winnersList)
-
+        // @ts-ignore: Anchor-generated account type is mismatched, ticketPrice exists on-chain
         const eachPrice = Math.floor((ticketsNumber * lottery.ticketPrice.toNumber()) / winnersNumber)
 
-
+        // @ts-ignore: Anchor-generated account type is mismatched, vaultPda exists on-chain
         const vaultAddress = new PublicKey(lottery.vaultPda);
 
 
 
         try {
+            // @ts-ignore: Anchor-generated account type is mismatched, name exists on-chain
             const lotteryName = lottery.name
 
             const [lotteryPDA] = PublicKey.findProgramAddressSync(
@@ -151,22 +166,30 @@ const dashboard = () => {
 
 
     const getWinnersList = async () => {
+
         if (!wallet?.publicKey) {
             console.log("Wallet not connected");
             return
+        };
+
+        if (!lottery) {
+            console.log("Lottery Not found");
+            return;
         }
 
         const winnersList = await program.account.winner.all([
             {
                 memcmp: {
                     offset: 8,
+
+                    //@ts-ignore :Anchor-generated account type is mismatched, lotteryPda exists on-chain
                     bytes: lottery.lotteryPda.toBase58()
                 }
             }
 
         ])
-        setTickets("")
-        setLotteryWinnerList(winnersList)
+        setTickets(null)
+        setLotteryWinnerList(winnersList as Winner[])
         console.log('this are the winnersList', winnersList);
 
     }
@@ -201,7 +224,12 @@ const dashboard = () => {
 
                                     <p>
                                         <span className="font-medium text-gray-100">🔐 Vault Address:</span>{" "}
-                                        <code className="text-neutral-400">{lottery.vaultPda.toBase58()}
+
+                                        <code className="text-neutral-400">{
+
+                                            //@ts-ignore :Anchor-generated account type is mismatched, lotteryPda exists on-chain
+                                            lottery.vaultPda.toBase58()
+                                        }
 
                                         </code>
                                     </p>
@@ -214,7 +242,10 @@ const dashboard = () => {
 
                                         <div className="p-2 border border-neutral-600/20 rounded-xl text-center bg-neutral-400/10">
                                             <p className="text-base font-semibold text-neutral-400">Vault Balance</p>
-                                            <span className="text-2xl font-semibold text-neutral-400" >$ {(tickets?.length) * (lottery.ticketPrice.toNumber())} <span className="text-base" >SOL</span></span>
+                                            <span className="text-2xl font-semibold text-neutral-400" >$ {
+
+                                                //@ts-ignore :Anchor-generated account type is mismatched, ticketPrice exists on-chain
+                                                (tickets?.length) * (lottery.ticketPrice.toNumber())} <span className="text-base" >SOL</span></span>
                                         </div>
 
                                     </section>
@@ -232,19 +263,24 @@ const dashboard = () => {
 
                 <div className="flex justify-around w-full ">
                     <button onClick={fetchAllTickets} className="border border-neutral-200/40 text-white px-2 py-1 rounded-md hover:shadow-purple-500/20 cursor-pointer hover:scale-105 transition  duration-300"> All Tickets</button>
-                    {lottery.isDrawn && (
-                        <button onClick={getWinnersList} className="bg-lime-600 text-white px-2 py-1 rounded-md hover:shadow-purple-500/20 cursor-pointer hover:scale-105">Lottery Winners</button>
-                    )}
+                    {
+                        //@ts-ignore :Anchor-generated account type is mismatched, isDrawn exists on-chain
+                        lottery.isDrawn && (
+                            <button onClick={getWinnersList} className="bg-lime-600 text-white px-2 py-1 rounded-md hover:shadow-purple-500/20 cursor-pointer hover:scale-105">Lottery Winners</button>
+                        )}
 
-                    {!lottery.isDrawn && (
-                        <button onClick={drawWinners} className="bg-green-800 text-white rounded-md px-2 py-2 hover:shadow-purple-500/20 cursor-pointer hover:scale-105">Draw Winners</button>
-                    )}
+                    {
+
+                        //@ts-ignore :Anchor-generated account type is mismatched, isDrawn exists on-chain
+                        !lottery.isDrawn && (
+                            <button onClick={drawWinners} className="bg-green-800 text-white rounded-md px-2 py-2 hover:shadow-purple-500/20 cursor-pointer hover:scale-105">Draw Winners</button>
+                        )}
                 </div>
 
 
                 {lotteryWinnerList && (
                     <div>
-                        {lotteryWinnerList.map((data: any, index: any) => {
+                        {lotteryWinnerList.map((data: Winner, index: number) => {
                             return (
                                 <div key={index} className="bg-gradient-to-r from-neutral-800/40  to-purple-500/40 rounded-xl p-6 shadow-xl border border-yellow-300/40 max-w-5xl mx-auto mb-4">
                                     <section className="text-center mb-6">
@@ -261,7 +297,7 @@ const dashboard = () => {
                                     </section>
 
                                     <div className="grid gap-4">
-                                        {data.account.winners.map((winnerPubkey: any, index: any) => {
+                                        {data.account.winners.map((winnerPubkey: PublicKey, index: number) => {
                                             return (
                                                 <div key={index} className="flex items-center gap-8 bg-neutral-500/20 px-8 py-2 rounded-xl shadow-lg hover:scale-[1.02] transition transform duration-300 ">
                                                     <p className="text-neutral-200/80" >{index + 1} </p>
@@ -318,17 +354,21 @@ const dashboard = () => {
                                     </thead>
                                     <tbody className="divide-y divide-gray-700">
 
-                                        {tickets.map((ticket: any, index: any) => (
+                                        {tickets.map((ticket: Ticket, index: number) => (
                                             <tr key={index} className="hover:bg-gray-700/50 transition-all duration-300 hover:translate-x-1 group">
                                                 <td className="px-6 py-4 text-gray-300 font-mono text-sm border-r border-gray-700/50 last:border-r-0 group-hover:text-gray-100">
-                                                    {ticket.account.ticketId.toNumber()}
+                                                    {
+                                                        //@ts-ignore :Anchor-generated account type is mismatched, ticketId exists on-chain
+                                                        ticket.account.ticketId.toNumber()}
                                                 </td>
                                                 <td className="px-6 py-4 text-gray-300 font-mono text-sm border-r border-gray-700/50 last:border-r-0 group-hover:text-gray-100">
                                                     {/* {ticket.account.ticketId}  */}
                                                     ticketAddress
                                                 </td>
                                                 <td className="px-6 py-4 text-gray-300 border-r border-gray-700/50 last:border-r-0 group-hover:text-gray-100">
-                                                    {ticket.account.ticketOwner.toBase58()}
+                                                    {
+                                                        //@ts-ignore :Anchor-generated account type is mismatched, ticketOwner exists on-chain
+                                                        ticket.account.ticketOwner.toBase58()}
                                                 </td>
                                                 <td className="px-6 py-4 border-r border-gray-700/50 last:border-r-0">Verified
                                                 </td>
@@ -350,4 +390,4 @@ const dashboard = () => {
     )
 }
 
-export default dashboard;
+export default Dashboard;

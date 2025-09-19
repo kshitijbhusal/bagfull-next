@@ -1,6 +1,7 @@
 "use client"
 import LotteryCard from '@/components/LotteryCard'
 import { useProgram } from '@/lib/useProgram'
+import type { Lottery } from '@/types/types';
 import { useAnchorWallet } from '@solana/wallet-adapter-react';
 import React, { useState } from 'react'
 
@@ -11,7 +12,7 @@ export const Page = () => {
   const program = useProgram();
   const wallet = useAnchorWallet();
 
-  const [lotteries, setLotteries] = useState<any>([]);
+  const [lotteries, setLotteries] = useState<Lottery[] | null >(null);
 
   const fetchLottery = async () => {
     if (!wallet?.publicKey) {
@@ -19,11 +20,9 @@ export const Page = () => {
       return;
     }
 
-    console.log("ctrl reach here")
     const lotteryData = await program.account.lottery.all();
-    console.log("ctrl bypass")
 
-    setLotteries(lotteryData)
+    setLotteries(lotteryData as Lottery[])
     console.log('Lottery is', lotteryData);
 
 
@@ -32,7 +31,7 @@ export const Page = () => {
 
   return (
     <>
-    <div className='w-screen h-screen absolute z-[-10]   '></div>
+      <div className='w-screen h-screen absolute z-[-10]   '></div>
 
       <div className='max-w-7xl h-screen mx-auto bg-purpe-600/20  p-4 '>
 
@@ -48,17 +47,30 @@ export const Page = () => {
 
 
         {
-          lotteries.map((lottery: any, index: any) => (
+          lotteries && lotteries.map((lottery: Lottery, index: number) => (
             <div key={index} className='bg--500 flex flex-col  items-center justify-centre p-4 space-y-4'>
 
               <LotteryCard
-                title={lottery.account.name}
-                price={lottery.account.ticketPrice.toNumber()}
-                lotteryPDA={lottery.account.lotteryPda.toBase58()}
-                createdBy={lottery.account.createdBy.toBase58()}
+                
+                title={
+                  //@ts-ignore : idk
+                  lottery.account.name}
+                price={
+                  //@ts-ignore : idk
+                  lottery.account.ticketPrice.toNumber()}
+                lotteryPDA={
+                  //@ts-ignore : idk
+                  lottery.account.lotteryPda.toBase58()}
+                createdBy={
+                  //@ts-ignore : idk
+                  lottery.account.createdBy.toBase58()}
                 id={index + 200}
-                vault={lottery.account.vaultPda.toBase58()}
-                isDrawn={lottery.account.isDrawn}
+                vault={
+                  //@ts-ignore : idk
+                  lottery.account.vaultPda.toBase58()}
+                isDrawn={
+                  //@ts-ignore : idk
+                  lottery.account.isDrawn}
 
               />
 
