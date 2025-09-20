@@ -35,6 +35,10 @@ People participate without knowing if the system is truly fair—or if it’s ev
 - **Scalable Model**: Could expand into raffles, community-driven prize pools, or even NFT-based lotteries.  
 
 ---
+##  Event Flow
+![Screenshot](public/img/flow.png)
+
+---
 ##  Logic / Math  
 
 The winning system is designed to be **simple and fair**:  
